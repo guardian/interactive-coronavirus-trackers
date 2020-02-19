@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "gulp",
+    "deploy": "gulp deploy",
+    "log": "gulp log",
+    "url": "gulp url",
+    "deploylive": "gulp deploylive",
+    "deploypreview": "gulp deploypreview"
   },
   "author": "",
   "license": "ISC",

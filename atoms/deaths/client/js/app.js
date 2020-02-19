@@ -209,20 +209,20 @@ else
 
 		svg.append("path")
 		.datum(latest)
-		.attr("class", "chart-line")
+		.attr("class", "deaths-chart-line")
 		.attr("d", line);
 
-		svg.selectAll(".chart-dot")
+		svg.selectAll(".deaths-chart-dot")
 		.data(latest)
 		.enter().append("circle")
-		.attr("class", "chart-dot")
+		.attr("class", "deaths-chart-dot")
 		.attr("cx", d => xScale(d.date))
 		.attr("cy", d => yScale(d.deaths))
 		.attr("r", latest.length < 40 ? 5 : 3);
 
 		svg.append('text')
 		.text(latest[0].deaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-		.attr('class', 'last-number')
+		.attr('class', 'deaths-last-number')
 		.attr("x", xScale(startEndDates[1]) - 10)
 		.attr("y", yScale(latest[0].deaths))
 		.style("text-anchor", "end")
