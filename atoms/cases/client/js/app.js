@@ -1,5 +1,6 @@
 import * as d3 from 'd3'
-import loadJson from '../../../../components/load-json'
+import loadJson from 'shared/js/load-json'
+import { numberWithCommas } from 'shared/js/util'
 
 
 let isMobile = window.matchMedia('(max-width: 620px)').matches;
@@ -23,7 +24,7 @@ let line = d3.line()
 .x( d => xScale(d.date))
 .y( d => yScale(d.cases))
 
-const parseTime = d3.timeParse("%d/%m/%Y");
+const parseTime = d3.timeParse("%m/%d/%y");
 
 const formatDays = d3.timeFormat("%e");
 
@@ -62,7 +63,7 @@ loadJson('https://interactive.guim.co.uk/docsdata-test/1Djzo649h0LzwjUCbOIAlxvvQ
 
 	Object.entries(obj).map(e => {
 
-		if(e[0].indexOf('2020') > -1 || e[0].indexOf('2021') > -1)dates.push(e[0])
+		if(e[0].indexOf('/20') > -1 || e[0].indexOf('/21') > -1)dates.push(e[0])
 
 	})
 
@@ -84,6 +85,8 @@ loadJson('https://interactive.guim.co.uk/docsdata-test/1Djzo649h0LzwjUCbOIAlxvvQ
 		latest.push({date:parseTime(d), cases:cases});
 	})
 
+	console.log(latest)
+
 	let casesScale = 0;
 	let casesScaleStr = '0';
 
@@ -101,7 +104,7 @@ loadJson('https://interactive.guim.co.uk/docsdata-test/1Djzo649h0LzwjUCbOIAlxvvQ
 	}
 
 //-----------UNCOMMENT FOR TESTING------------------------
-//let startEndDates = [new Date('January 21, 2020 03:24:00'), new Date('March 20, 2020 03:24:00')];
+//let startEndDates = [new Date('January 21, 2020 03:24:00'), new Date('March 20, 2021 03:24:00')];
 
 let startEndDates = d3.extent(latest, d => d.date);
 
@@ -216,7 +219,7 @@ else
 		.attr("r", latest.length < 40 ? 5 : 3);
 
 		svg.append('text')
-		.text(latest[0].cases.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+		.text(numberWithCommas(latest[0].cases))
 		.attr('class', 'cases-last-number')
 		.attr("x", xScale(startEndDates[1]) - 10)
 		.attr("y", yScale(latest[0].cases))
