@@ -10,7 +10,7 @@ let isMobile = window.matchMedia('(max-width: 620px)').matches;
 
 const atomEl = d3.select('.interactive-wrapper').node();
 
-let width = (atomEl.getBoundingClientRect().width / 4) - 10;
+let width = (atomEl.getBoundingClientRect().width / 3) - 10;
 let height =  isMobile ? width : width * 2.5 / 5;
 
 const parseTime = d3.timeParse("%m/%d/%y");

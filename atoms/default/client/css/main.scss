@@ -1,9 +1,29 @@
 @import "fonts";
 @import "mq";
 @import "palette";
-// @import "enhancer";
+@import "enhancer";
+@import "linecharts";
 
-.interactive-atom {
-    margin: 0;
-    padding: 0;
+
+
+.recovered-chart-line{
+	fill:none;
+	stroke:#d6d6d6;
+	stroke-width:3px;
+}
+
+.recovered-chart-dot{
+	fill:#d6d6d6;
+}
+
+.recovered-last-number{
+	font-family: 'Guardian Text Sans Web', Arial, sans-serif;
+	font-weight: 700;
+	font-size: 12px;
+	fill: #d6d6d6;
+	text-transform: none;
+	padding-bottom: 0;
+	padding-top: 0;
+	mix-blend-mode: normal;
+	font-style: normal;
 }
