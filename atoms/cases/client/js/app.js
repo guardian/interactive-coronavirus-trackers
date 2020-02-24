@@ -1,7 +1,8 @@
 import * as d3 from 'd3'
 import loadJson from 'shared/js/load-json'
-import { numberWithCommas } from 'shared/js/util'
+import { numberWithCommas, getDataUrlForEnvironment  } from 'shared/js/util'
 
+let dataurl = getDataUrlForEnvironment();
 
 let isMobile = window.matchMedia('(max-width: 620px)').matches;
 
@@ -50,8 +51,7 @@ const latest = [];
 
 const dates = [];
 
-
-loadJson('https://interactive.guim.co.uk/docsdata-test/1Djzo649h0LzwjUCbOIAlxvvQHWfCkeoN4jAA82eI0Q8.json')
+loadJson(dataurl)
 .then(fileRaw => {
 
 	headline.html(fileRaw.sheets.cases_furniture[0].text)
