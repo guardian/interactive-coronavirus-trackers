@@ -8,12 +8,13 @@
     padding: 0;
 }
 
-.interactive-wrapper{
+.interactive-maps-wrapper{
 
 	display: flex;
 	flex-wrap: wrap;
 	margin-bottom: 12px;
 	justify-content: space-between;
+	background: white;
 
 
 	&:after {

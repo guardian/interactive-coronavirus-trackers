@@ -8,7 +8,7 @@ const d3 = Object.assign({}, d3B, geo);
 
 let isMobile = window.matchMedia('(max-width: 620px)').matches;
 
-const atomEl = d3.select('.interactive-wrapper').node();
+const atomEl = d3.select('.interactive-maps-wrapper').node();
 
 let width = (atomEl.getBoundingClientRect().width / 3) - 10;
 let height =  isMobile ? width : width * 2.5 / 5;
@@ -69,7 +69,7 @@ loadJson('https://interactive.guim.co.uk/docsdata-test/1Djzo649h0LzwjUCbOIAlxvvQ
 
 const makeMap = (date) =>{
 
-	let div = d3.select('.interactive-wrapper')
+	let div = d3.select('.interactive-maps-wrapper')
 	.append('div')
 
 
