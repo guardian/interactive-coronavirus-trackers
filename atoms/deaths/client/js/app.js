@@ -1,6 +1,8 @@
 import * as d3 from 'd3'
 import loadJson from 'shared/js/load-json'
-import { numberWithCommas } from 'shared/js/util'
+import { numberWithCommas, getDataUrlForEnvironment  } from 'shared/js/util'
+
+let dataurl = getDataUrlForEnvironment();
 
 
 let isMobile = window.matchMedia('(max-width: 620px)').matches;
@@ -10,7 +12,7 @@ const atomEl = d3.select('.interactive-wrapper').node();
 let w = atomEl.getBoundingClientRect().width;
 let h = isMobile ? w * 1.6 : 752 * w / 1260;
 
-let margin = {top: 20, right: 20, bottom: 50, left: 20};
+let margin = {top: 30, right: 20, bottom: 50, left: 20};
 let width = w - margin.left - margin.right;
 let height = h - margin.top - margin.bottom;
 
@@ -50,7 +52,7 @@ const latest = [];
 
 const dates = [];
 
-loadJson('https://interactive.guim.co.uk/docsdata-test/1Djzo649h0LzwjUCbOIAlxvvQHWfCkeoN4jAA82eI0Q8.json')
+loadJson(dataurl)
 .then(fileRaw => {
 
 	headline.html(fileRaw.sheets.deaths_furniture[0].text)
@@ -224,8 +226,8 @@ else
 		svg.append('text')
 		.text(numberWithCommas(latest[0].deaths))
 		.attr('class', 'deaths-last-number')
-		.attr("x", xScale(startEndDates[1]) - 10)
-		.attr("y", yScale(latest[0].deaths))
+		.attr("x", xScale(startEndDates[1]))
+		.attr("y", yScale(latest[0].deaths) - 10)
 		.style("text-anchor", "end")
 
 })

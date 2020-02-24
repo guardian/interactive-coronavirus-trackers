@@ -111,8 +111,8 @@ const supportsSticky = () =>
   featureTest("position", "-webkit-sticky");
 
 const getDataUrlForEnvironment = () => {
-  let isPreview =
-    document.referrer && document.referrer.indexOf("gutools") > -1;
+
+  let isPreview = document.referrer && document.referrer.indexOf("gutools") > -1;
 
   if (window) {
     if (window.location) {
@@ -125,7 +125,8 @@ const getDataUrlForEnvironment = () => {
 
   if (isPreview) {
 	  return "https://interactive.guim.co.uk/docsdata-test/1Djzo649h0LzwjUCbOIAlxvvQHWfCkeoN4jAA82eI0Q8.json"
-  } else {
+  }
+  else {
 	  return "https://interactive.guim.co.uk/docsdata/1Djzo649h0LzwjUCbOIAlxvvQHWfCkeoN4jAA82eI0Q8.json"
   }
 
@@ -144,5 +145,6 @@ export {
   sum,
   ordinal,
   featureTest,
-  supportsSticky
+  supportsSticky,
+  getDataUrlForEnvironment
 };

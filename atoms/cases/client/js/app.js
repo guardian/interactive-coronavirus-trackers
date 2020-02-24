@@ -11,7 +11,7 @@ const atomEl = d3.select('.interactive-wrapper').node();
 let w = atomEl.getBoundingClientRect().width;
 let h = isMobile ? w * 1.6 : 752 * w / 1260;
 
-let margin = {top: 20, right: 20, bottom: 50, left: 20};
+let margin = {top: 30, right: 20, bottom: 50, left: 20};
 let width = w - margin.left - margin.right;
 let height = h - margin.top - margin.bottom;
 
@@ -221,8 +221,8 @@ else
 		svg.append('text')
 		.text(numberWithCommas(latest[0].cases))
 		.attr('class', 'cases-last-number')
-		.attr("x", xScale(startEndDates[1]) - 10)
-		.attr("y", yScale(latest[0].cases))
+		.attr("x", xScale(startEndDates[1]))
+		.attr("y", yScale(latest[0].cases) - 10)
 		.style("text-anchor", "end")
 
 
