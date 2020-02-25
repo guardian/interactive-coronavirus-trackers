@@ -7,7 +7,7 @@ let dataurl = getDataUrlForEnvironment();
 
 let isMobile = window.matchMedia('(max-width: 620px)').matches;
 
-const atomEl = d3.select('.interactive-wrapper').node();
+const atomEl = d3.select('.interactive-wrapper-deaths').node();
 
 let w = atomEl.getBoundingClientRect().width;
 let h = isMobile ? w * 1.6 : 752 * w / 1260;
@@ -35,16 +35,16 @@ const formatMonths = d3.timeFormat("%b");
 
 const formatYears = d3.timeFormat("%Y");
 
-const headline = d3.select(".interactive-wrapper").append("div").attr('class', 'headline');
-const timestamp = d3.select(".interactive-wrapper").append("div").attr('class', 'timestamp');
+const headline = d3.select(".interactive-wrapper-deaths").append("div").attr('class', 'headline');
+const timestamp = d3.select(".interactive-wrapper-deaths").append("div").attr('class', 'timestamp');
 
-let svg = d3.select(".interactive-wrapper").append("svg")
+let svg = d3.select(".interactive-wrapper-deaths").append("svg")
 .attr("width", w)
 .attr("height", h)
 .append("g")
 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-const source = d3.select(".interactive-wrapper").append("div").attr('class', 'source');
+const source = d3.select(".interactive-wrapper-deaths").append("div").attr('class', 'source');
 
 const places = [];
 
@@ -88,7 +88,7 @@ loadJson(dataurl)
 	})
 
 	let deathsScale = 0;
-	let deathsScaleStr = '0';
+	let deathsScaleStr = '';
 	
 	latest.sort((a,b) => (b.date > a.date) ? 1 : ((a.date > b.date) ? -1 : 0));
 
@@ -107,6 +107,8 @@ loadJson(dataurl)
 		deathsScale = 1000000;
 		deathsScaleStr = 'million';
 	}
+
+	console.log('deathsScaleStr', deathsScaleStr)
 
 //-----------UNCOMMENT FOR TESTING------------------------
 //let startEndDates = [new Date('January 21, 2020 03:24:00'), new Date('March 20, 2020 03:24:00')];

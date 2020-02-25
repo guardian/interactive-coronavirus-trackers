@@ -112,12 +112,13 @@ const supportsSticky = () =>
 
 const getDataUrlForEnvironment = () => {
 
-  let isPreview = document.referrer && document.referrer.indexOf("gutools") > -1;
+let isPreview = false;
+
 
   if (window) {
     if (window.location) {
-      if (window.location.ancestorOrigins) {
-        if (window.location.ancestorOrigins["0"].indexOf("gutools") > -1)
+      if (window.location.href) {
+        if (window.location.href.indexOf("gutools") > -1)
           isPreview = true;
       }
     }

@@ -7,12 +7,12 @@ let dataurl = getDataUrlForEnvironment();
 
 let isMobile = window.matchMedia('(max-width: 620px)').matches;
 
-const atomEl = d3.select('.interactive-wrapper').node();
+const atomEl = d3.select('.interactive-wrapper-recovered').node();
 
 let w = atomEl.getBoundingClientRect().width;
 let h = isMobile ? w * 1.6 : 752 * w / 1260;
 
-let margin = {top: 20, right: 20, bottom: 50, left: 20};
+let margin = {top: 30, right: 20, bottom: 50, left: 20};
 let width = w - margin.left - margin.right;
 let height = h - margin.top - margin.bottom;
 
@@ -34,16 +34,16 @@ const formatMonths = d3.timeFormat("%b");
 
 const formatYears = d3.timeFormat("%Y");
 
-const headline = d3.select(".interactive-wrapper").append("div").attr('class', 'headline');
-const timestamp = d3.select(".interactive-wrapper").append("div").attr('class', 'timestamp');
+const headline = d3.select(".interactive-wrapper-recovered").append("div").attr('class', 'headline');
+const timestamp = d3.select(".interactive-wrapper-recovered").append("div").attr('class', 'timestamp');
 
-let svg = d3.select(".interactive-wrapper").append("svg")
+let svg = d3.select(".interactive-wrapper-recovered").append("svg")
 .attr("width", w)
 .attr("height", h)
 .append("g")
 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-const source = d3.select(".interactive-wrapper").append("div").attr('class', 'source');
+const source = d3.select(".interactive-wrapper-recovered").append("div").attr('class', 'source');
 
 
 const places = [];
@@ -223,8 +223,8 @@ else
 		svg.append('text')
 		.text(numberWithCommas(latest[0].recovered))
 		.attr('class', 'recovered-last-number')
-		.attr("x", xScale(startEndDates[1]) - 10)
-		.attr("y", yScale(latest[0].recovered))
+		.attr("x", xScale(startEndDates[1]))
+		.attr("y", yScale(latest[0].recovered) -10)
 		.style("text-anchor", "end")
 
 

@@ -6,7 +6,7 @@ let dataurl = getDataUrlForEnvironment();
 
 let isMobile = window.matchMedia('(max-width: 620px)').matches;
 
-const atomEl = d3.select('.interactive-wrapper').node();
+const atomEl = d3.select('.interactive-wrapper-cases').node();
 
 let w = atomEl.getBoundingClientRect().width;
 let h = isMobile ? w * 1.6 : 752 * w / 1260;
@@ -33,16 +33,16 @@ const formatMonths = d3.timeFormat("%b");
 
 const formatYears = d3.timeFormat("%Y");
 
-const headline = d3.select(".interactive-wrapper").append("div").attr('class', 'headline');
-const timestamp = d3.select(".interactive-wrapper").append("div").attr('class', 'timestamp');
+const headline = d3.select(".interactive-wrapper-cases").append("div").attr('class', 'headline');
+const timestamp = d3.select(".interactive-wrapper-cases").append("div").attr('class', 'timestamp');
 
-let svg = d3.select(".interactive-wrapper").append("svg")
+let svg = d3.select(".interactive-wrapper-cases").append("svg")
 .attr("width", w)
 .attr("height", h)
 .append("g")
 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-const source = d3.select(".interactive-wrapper").append("div").attr('class', 'source');
+const source = d3.select(".interactive-wrapper-cases").append("div").attr('class', 'source');
 
 
 const places = [];
@@ -84,8 +84,6 @@ loadJson(dataurl)
 
 		latest.push({date:parseTime(d), cases:cases});
 	})
-
-	console.log(latest)
 
 	let casesScale = 0;
 	let casesScaleStr = '0';

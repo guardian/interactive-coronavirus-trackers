@@ -42,13 +42,20 @@
 
 }
 
-.headline{@include fs-header(5);}
+.headline{
+	font-size: 20px;
+	line-height: 24px;
+	font-family: "Guardian Headline","Guardian Egyptian Web","Guardian Headline Full",Georgia,serif;
+	font-weight: 900;
+	margin-bottom: 1.5px;
+	margin-bottom: 6px;
+}
 .timestamp{	
-	margin-left: 0px;
-    font-size: 13px;
-    font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
-    color: #767676;
-    margin-bottom: 12px;
+	font-size: 16px;
+	line-height: 0px;
+	font-family: "Guardian Text Egyptian Web",Georgia,serif;
+	margin-bottom: 12px;
+	font-weight: 300;
 }
 .source{
 	padding: 6px 0 6px 0;
