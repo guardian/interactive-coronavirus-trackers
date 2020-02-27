@@ -194,7 +194,7 @@ else
 		.attr('x', 0)
 		.attr('y', -10);
 
-		let yTicksNodes = d3.selectAll('.y.axis g').nodes();
+		let yTicksNodes = d3.selectAll('.interactive-wrapper-cases .y.axis g').nodes();
 		let currentText = yTicksNodes[yTicksNodes.length-1].childNodes[1].innerHTML;
 
 		yTicksNodes[yTicksNodes.length-1].childNodes[1].innerHTML = currentText + " " +casesScaleStr

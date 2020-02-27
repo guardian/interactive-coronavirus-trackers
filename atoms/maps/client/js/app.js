@@ -43,6 +43,22 @@ let selectedCountry = [];
 
 let places = [];
 
+//projection.fitExtent([[0, 0], [atomEl.getBoundingClientRect().width, atomEl.getBoundingClientRect().width / 3]], world);
+
+
+/*const svg = d3.select(".interactive-maps-wrapper")
+.append('svg')
+.attr('width', atomEl.getBoundingClientRect().width)
+.attr('height', atomEl.getBoundingClientRect().width / 3)
+
+svg.selectAll('path')
+.data(world.features)
+.enter()
+.append('path')
+.attr('d', path)
+.attr('class', d => d.properties.ISO_A3)
+.attr('fill', '#dadada')*/
+
 loadJson(dataurl)
 .then(fileRaw => {
 
@@ -124,6 +140,9 @@ const makeMap = (date) =>{
 
 	selectedCountry.map(s => {
 
+		/*svg.select('.' + s)
+		.attr('fill', '#E9C6BC')*/
+
 		let selectedC = topojson.feature(countries, {
 				type: "GeometryCollection",
 				geometries: countries.objects.ne_10m_admin_0_countries.geometries.filter(g => g.properties.ISO_A3 === s)
@@ -179,6 +198,9 @@ const makeMap = (date) =>{
 			path(selectedC);
 			
 			context.fill();
+
+			/*svg.select('.' + d.ISO_A3)
+			.attr('fill', '#E9C6BC')*/
 
 			selectedCountry.push(d.ISO_A3)
 		}

@@ -11,7 +11,7 @@ const d3 = Object.assign({}, d3B, geo);
 
 const dates = [];
 
-const parseTime = d3.timeParse("%m/%d/%y");
+const parseTime = d3.timeParse("%m/%d/%y");	
 
 const mapEl = $(".interactive-compared-wrapper");
 

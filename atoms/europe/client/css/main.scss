@@ -1,0 +1,64 @@
+@import "fonts";
+@import "mq";
+@import "palette";
+// @import "enhancer";
+
+.interactive-china-wrapper{
+	background: white;
+	border-top: 1px solid #dcdcdc;
+	border-bottom: 1px solid #dcdcdc;
+}
+
+.country{
+	stroke-width:1.2px;
+	fill:#f6f6f6;
+
+	@include mq(mobile){stroke: #efefef;}
+	@include mq(tablet){stroke: #ffffff;}
+}
+
+.selected{
+	stroke:#ffffff;
+	stroke-opacity:1;
+	fill:#eaeaea;
+	fill-opacity:1;
+}
+
+.bubble{
+	stroke:#c70000;
+	stroke-opacity:1;
+	fill:#E9C6BC;
+	fill-opacity:0.2;
+}
+
+
+.country-label{
+	font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+	font-size: 14px;
+	font-weight: 900;
+}
+.country-cases{
+	font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+	font-size: 14px;
+}
+
+.headline{@include fs-header(5);}
+.china-standfirst{	
+	font-size: 16px;
+	line-height: 24px;
+	font-family: "Guardian Text Egyptian Web",Georgia,serif;
+	margin-bottom: 12px;
+	font-weight: 300;
+	margin-top: 6px;
+}
+.source{
+	padding: 6px 0 6px 0;
+	margin: 0;
+	font-family: 'Guardian Text Sans Web', Arial, sans-serif;
+	font-size: 12px;
+	line-height: 15px;
+	color:#767676;
+	display: inline-block;
+	width: 100%;
+	border-bottom: 1px solid #dcdcdc;
+}

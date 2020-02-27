@@ -97,7 +97,7 @@ loadJson(dataurl)
 		deathsScale = 100;
 		deathsScaleStr = 'hundred';
 	}
-	if(latest[0].deaths.toString().length > 4 && latest[0].deaths.toString().length < 7)
+	else if(latest[0].deaths.toString().length > 4 && latest[0].deaths.toString().length < 7)
 	{
 		deathsScale = 1000;
 		deathsScaleStr = 'thousand';
@@ -203,10 +203,11 @@ else
 		.attr('x', 0)
 		.attr('y', -10);
 
-		let yTicksNodes = d3.selectAll('.y.axis g').nodes();
+		let yTicksNodes = d3.selectAll('.interactive-wrapper-deaths .y.axis g').nodes();
 		let currentText = yTicksNodes[yTicksNodes.length-1].childNodes[1].innerHTML;
 
-		yTicksNodes[yTicksNodes.length-1].childNodes[1].innerHTML = currentText + " " +deathsScaleStr
+
+		yTicksNodes[yTicksNodes.length-1].childNodes[1].innerHTML = currentText + " " + deathsScaleStr
 
 		d3.select('.y.axis .domain').remove()
 		d3.selectAll('.x.axis .domain').remove()

@@ -128,7 +128,7 @@ let isPreview = false;
 	  return "https://interactive.guim.co.uk/docsdata-test/1Djzo649h0LzwjUCbOIAlxvvQHWfCkeoN4jAA82eI0Q8.json"
   }
   else {
-	  return "https://interactive.guim.co.uk/docsdata/1Djzo649h0LzwjUCbOIAlxvvQHWfCkeoN4jAA82eI0Q8.json"
+	  return "https://interactive.guim.co.uk/docsdata-test/1Djzo649h0LzwjUCbOIAlxvvQHWfCkeoN4jAA82eI0Q8.json"
   }
 
 };
