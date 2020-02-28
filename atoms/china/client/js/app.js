@@ -1,11 +1,11 @@
 import * as d3B from 'd3'
 import * as topojson from 'topojson'
 import * as geoProjection from 'd3-geo-projection'
-import { $, getDataUrlForEnvironment } from "shared/js/util"
+import { $, getAsiaDataUrlForEnvironment } from "shared/js/util"
 import asiaMap from 'assets/asia_china_extent.json'
 import loadJson from 'shared/js/load-json'
 
-let dataurl = getDataUrlForEnvironment();
+let dataurl = getAsiaDataUrlForEnvironment();
 
 const d3 = Object.assign({}, d3B, topojson, geoProjection);
 
@@ -68,8 +68,6 @@ const parseData = (data) => {
 
 		let area = d3.select('.' + d.ISO_A3.split(' ').join(''))
 		.classed(' selected', true);
-
-		//let feature = topojson.feature(asiaMap, asiaMap.objects.asia_china_extent).features.find(c => c.properties.ISO_A3.split(' ').join('') === d.ISO_A3.split(' ').join(''))
 
 		let centroid = projection([d.lat, d.lon]);
 

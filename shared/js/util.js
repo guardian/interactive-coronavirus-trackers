@@ -128,10 +128,66 @@ let isPreview = false;
 	  return "https://interactive.guim.co.uk/docsdata-test/1Djzo649h0LzwjUCbOIAlxvvQHWfCkeoN4jAA82eI0Q8.json"
   }
   else {
-	  return "https://interactive.guim.co.uk/docsdata-test/1Djzo649h0LzwjUCbOIAlxvvQHWfCkeoN4jAA82eI0Q8.json"
+	  return "https://interactive.guim.co.uk/docsdata/1Djzo649h0LzwjUCbOIAlxvvQHWfCkeoN4jAA82eI0Q8.json"
   }
 
 };
+
+
+
+const getAsiaDataUrlForEnvironment = () => {
+
+  console.log()
+
+let isPreview = false;
+
+
+  if (window) {
+    if (window.location) {
+      if (window.location.href) {
+        if (window.location.href.indexOf("gutools") > -1)
+          isPreview = true;
+      }
+    }
+  }
+
+  if (isPreview) {
+    return "https://interactive.guim.co.uk/docsdata-test/12kvRDE08EReAwdmc3o3GVQnEE6YbEBrSIo5cnjA-RVo.json"
+  }
+  else {
+    return "https://interactive.guim.co.uk/docsdata/12kvRDE08EReAwdmc3o3GVQnEE6YbEBrSIo5cnjA-RVo.json"
+  }
+
+};
+
+
+const getEmeaDataUrlForEnvironment = () => {
+
+  console.log()
+
+let isPreview = false;
+
+
+  if (window) {
+    if (window.location) {
+      if (window.location.href) {
+        if (window.location.href.indexOf("gutools") > -1)
+          isPreview = true;
+      }
+    }
+  }
+
+  if (isPreview) {
+    return "https://interactive.guim.co.uk/docsdata-test/1Dp3vW18kZeMVk7R3T-cK_iXZZifLyieKyx47c_rv3vM.json"
+  }
+  else {
+    return "https://interactive.guim.co.uk/docsdata/1Dp3vW18kZeMVk7R3T-cK_iXZZifLyieKyx47c_rv3vM.json"
+  }
+
+};
+
+
+
 
 export {
   $,
@@ -147,5 +203,7 @@ export {
   ordinal,
   featureTest,
   supportsSticky,
-  getDataUrlForEnvironment
+  getDataUrlForEnvironment,
+  getAsiaDataUrlForEnvironment,
+  getEmeaDataUrlForEnvironment
 };
