@@ -137,8 +137,6 @@ let isPreview = false;
 
 const getAsiaDataUrlForEnvironment = () => {
 
-  console.log()
-
 let isPreview = false;
 
 
@@ -162,8 +160,6 @@ let isPreview = false;
 
 
 const getEmeaDataUrlForEnvironment = () => {
-
-  console.log()
 
 let isPreview = false;
 

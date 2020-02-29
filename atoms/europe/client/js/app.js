@@ -65,6 +65,8 @@ const parseData = (data) => {
 
 	data.map(d => {
 
+		console.log(d)
+
 
 		if(!isNaN(+d.cases) && +d.cases != 0)
 		{
