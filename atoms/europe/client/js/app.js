@@ -17,7 +17,7 @@ const atomEl = d3.select('.interactive-europe-wrapper').node()
 const isMobile = window.matchMedia('(max-width: 600px)').matches;
 
 let width = atomEl.getBoundingClientRect().width;
-let height =  isMobile ? width : width * 3.5 / 5;
+let height =  isMobile ? width * 1.1 : width * 3.5 / 5;
 
 let projection = d3.geoAlbers()
 .rotate([-20.0, 0.0])
@@ -34,6 +34,8 @@ const map = d3.select('.interactive-europe-wrapper')
 .attr('width', width)
 .attr('height', height);
 
+const source = d3.select(".interactive-europe-wrapper").append("div").attr('class', 'europe-source');
+
 
 const geo = map.append('g');
 const bubbles = map.append('g');
@@ -41,7 +43,7 @@ const labels = map.append('g');
 
 const emeaExtent = topojson.feature(europeMap, {
 	type: "GeometryCollection",
-	geometries: europeMap.objects.europe.geometries.filter(d => d.properties.NAME === 'Spain' || d.properties.NAME === 'Finland' || d.properties.NAME === 'Yemen')
+	geometries: europeMap.objects.europe.geometries.filter(d => d.properties.NAME === 'Algeria' || d.properties.NAME === 'Finland' || d.properties.NAME === 'Yemen')
 });
 
 const radius = d3.scaleSqrt()
@@ -137,4 +139,7 @@ loadJson(dataurl)
 
 	headline.html(fileRaw.sheets.emea_furniture[0].text)
 	standfirst.html(fileRaw.sheets.emea_furniture[2].text)
+	source.html(fileRaw.sheets.emea_furniture[1].text)
+
+	window.resize();
 })

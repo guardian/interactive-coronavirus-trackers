@@ -3,10 +3,11 @@
 @import "palette";
 // @import "enhancer";
 
-.interactive-china-wrapper{
+.interactive-europe-wrapper{
 	background: white;
 	border-top: 1px solid #dcdcdc;
 	border-bottom: 1px solid #dcdcdc;
+	max-width: 860px;
 }
 
 .country{
@@ -43,7 +44,7 @@
 }
 
 .headline{@include fs-header(5);}
-.china-standfirst{	
+.europe-standfirst{	
 	font-size: 16px;
 	line-height: 24px;
 	font-family: "Guardian Text Egyptian Web",Georgia,serif;
@@ -51,7 +52,7 @@
 	font-weight: 300;
 	margin-top: 6px;
 }
-.source{
+.europe-source{
 	padding: 6px 0 6px 0;
 	margin: 0;
 	font-family: 'Guardian Text Sans Web', Arial, sans-serif;
