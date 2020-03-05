@@ -1,8 +1,8 @@
 import * as d3 from 'd3'
 import loadJson from 'shared/js/load-json'
-import { numberWithCommas, getDataUrlForEnvironment  } from 'shared/js/util'
+import { numberWithCommas, getDeathsDataUrlForEnvironment  } from 'shared/js/util'
 
-let dataurl = getDataUrlForEnvironment();
+let dataurl = getDeathsDataUrlForEnvironment();
 
 
 let isMobile = window.matchMedia('(max-width: 620px)').matches;
@@ -107,8 +107,6 @@ loadJson(dataurl)
 		deathsScale = 1000000;
 		deathsScaleStr = 'million';
 	}
-
-	console.log('deathsScaleStr', deathsScaleStr)
 
 //-----------UNCOMMENT FOR TESTING------------------------
 //let startEndDates = [new Date('January 21, 2020 03:24:00'), new Date('March 20, 2020 03:24:00')];

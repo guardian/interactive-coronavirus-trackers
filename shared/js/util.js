@@ -133,6 +133,52 @@ let isPreview = false;
 
 };
 
+const getDeathsDataUrlForEnvironment = () => {
+
+let isPreview = false;
+
+
+  if (window) {
+    if (window.location) {
+      if (window.location.href) {
+        if (window.location.href.indexOf("gutools") > -1)
+          isPreview = true;
+      }
+    }
+  }
+
+  if (isPreview) {
+    return 'https://interactive.guim.co.uk/docsdata-test/1A1yTL11efirY_ClzHKE53mcQZtnPQ7C2cPMFguAzBmc.json'
+  }
+  else {
+    return "https://interactive.guim.co.uk/docsdata/1A1yTL11efirY_ClzHKE53mcQZtnPQ7C2cPMFguAzBmc.json"
+  }
+
+};
+
+const getRecoveredDataUrlForEnvironment = () => {
+
+let isPreview = false;
+
+
+  if (window) {
+    if (window.location) {
+      if (window.location.href) {
+        if (window.location.href.indexOf("gutools") > -1)
+          isPreview = true;
+      }
+    }
+  }
+
+  if (isPreview) {
+    return 'https://interactive.guim.co.uk/docsdata-test/1-Hw88-DyHGjqlC5MpR7TziAvz7GFP13R44KOSoCxHlg.json'
+  }
+  else {
+    return "https://interactive.guim.co.uk/docsdata/1-Hw88-DyHGjqlC5MpR7TziAvz7GFP13R44KOSoCxHlg.json"
+  }
+
+};
+
 
 
 const getAsiaDataUrlForEnvironment = () => {
@@ -182,6 +228,29 @@ let isPreview = false;
 
 };
 
+const getAmericaDataUrlForEnvironment = () => {
+
+let isPreview = false;
+
+
+  if (window) {
+    if (window.location) {
+      if (window.location.href) {
+        if (window.location.href.indexOf("gutools") > -1)
+          isPreview = true;
+      }
+    }
+  }
+
+  if (isPreview) {
+    return "https://interactive.guim.co.uk/docsdata-test/11bYpZJ25ccD9UXO4ipd_6kdmZWHt1B3byqAOgx5HsH4.json"
+  }
+  else {
+    return "https://interactive.guim.co.uk/docsdata/11bYpZJ25ccD9UXO4ipd_6kdmZWHt1B3byqAOgx5HsH4.json"
+  }
+
+};
+
 
 
 
@@ -200,6 +269,9 @@ export {
   featureTest,
   supportsSticky,
   getDataUrlForEnvironment,
+  getDeathsDataUrlForEnvironment,
+  getRecoveredDataUrlForEnvironment,
   getAsiaDataUrlForEnvironment,
-  getEmeaDataUrlForEnvironment
+  getEmeaDataUrlForEnvironment,
+  getAmericaDataUrlForEnvironment
 };

@@ -37,11 +37,15 @@ const world = topojson.feature(countries, countries.objects.ne_10m_admin_0_count
 
 projection.fitExtent([[0, 0], [width, height]], world);
 
+let dates;
+
 let data = [];
 
 let selectedCountry = [];
 
 let places = [];
+
+let newCountries = [];
 
 //projection.fitExtent([[0, 0], [atomEl.getBoundingClientRect().width, atomEl.getBoundingClientRect().width / 3]], world);
 
@@ -65,16 +69,69 @@ loadJson(dataurl)
 	headline.html(fileRaw.sheets.small_multiples_furniture[0].text)
 	standfirst.html(fileRaw.sheets.small_multiples_furniture[1].text)
 
-	let dates = Object.getOwnPropertyNames(fileRaw.sheets.main_cases[0]).filter(e => e.indexOf('/20') != -1 || e.indexOf('/21') != -1);
+	dates = Object.getOwnPropertyNames(fileRaw.sheets.main_cases[0]).filter(e => e.indexOf('/20') != -1 || e.indexOf('/21') != -1);
 
 	let selectedDates = fileRaw.sheets.small_multiples;
+
+	//console.log(selectedDates)
+
+	/*let selectedDates = [
+
+{date:'1/22/20'},
+{date:'1/23/20'},
+{date:'1/24/20'},
+{date:'1/25/20'},
+{date:'1/26/20'},
+{date:'1/27/20'},
+{date:'1/28/20'},
+{date:'1/29/20'},
+{date:'1/30/20'},
+{date:'1/31/20'},
+{date:'2/1/20'},
+{date:'2/2/20'},
+{date:'2/3/20'},
+{date:'2/4/20'},
+{date:'2/5/20'},
+{date:'2/6/20'},
+{date:'2/7/20'},
+{date:'2/8/20'},
+{date:'2/9/20'},
+{date:'2/10/20'},
+{date:'2/11/20'},
+{date:'2/12/20'},
+{date:'2/13/20'},
+{date:'2/14/20'},
+{date:'2/15/20'},
+{date:'2/16/20'},
+{date:'2/17/20'},
+{date:'2/18/20'},
+{date:'2/19/20'},
+{date:'2/20/20'},
+{date:'2/21/20'},
+{date:'2/22/20'},
+{date:'2/23/20'},
+{date:'2/24/20'},
+{date:'2/25/20'},
+{date:'2/26/20'},
+{date:'2/27/20'},
+{date:'2/28/20'},
+{date:'2/29/20'},
+{date:'3/1/20'},
+{date:'3/2/20'},
+{date:'3/3/20'},
+{date:'3/4/20'}
+
+]*/
 
 
 	fileRaw.sheets.main_cases.map((p,i) => {
 
 		places.push({province:p['Province/State'], country:p['Country/Region'], lat:p.Lat, lon:p.Long, cases:[]})
 
-		dates.map(d => places[i].cases.push({date: d, cases: +p[d]}))
+		dates.map(d => {
+			places[i].cases.push({date: d, cases: +p[d]});
+			newCountries[d] = [];
+	})
 
 	})
 
@@ -86,7 +143,13 @@ loadJson(dataurl)
 
 			p[dates[i]] = +p[dates[i]] - acum;
 
-			//if(p[dates[i]]<0)console.log(p.ISO_A3)
+
+			if(+p[dates[i]] > 0 && selectedCountry.indexOf(p.ISO_A3) < 0)
+			{
+				newCountries[dates[i]].push(p.ISO_A3)
+
+				selectedCountry.push(p.ISO_A3)
+			}
 
 			acum += +p[dates[i]]
 
@@ -101,14 +164,15 @@ loadJson(dataurl)
 		makeMap(d.date)
 
 	})
-})
+
+});
+
 
 const makeMap = (date) =>{
 
 	let div = d3.select('.interactive-maps-wrapper-maps')
 	.append('div')
-	 .attr('class', 'map')
-
+	.attr('class', 'map')
 
 	div.append('h3')
     .text( parseTime(date).getDate() + " " + formatMonths(parseTime(date)) )
@@ -138,30 +202,37 @@ const makeMap = (date) =>{
 	context.fill();
 
 
-	selectedCountry.map(s => {
-
-		/*svg.select('.' + s)
-		.attr('fill', '#E9C6BC')*/
-
-		let selectedC = topojson.feature(countries, {
-				type: "GeometryCollection",
-				geometries: countries.objects.ne_10m_admin_0_countries.geometries.filter(g => g.properties.ISO_A3 === s)
-			});
+	for (var i = 0; i < dates.length; i++) {
 
 
-		let colorSelected = "#DADADA";
+		if(dates[i] != date){
 
-			context.fillStyle = colorSelected;
-			context.beginPath();
-			path(selectedC);
-			context.fill();
-	})
+			newCountries[dates[i]].forEach(s => {
+
+				let selectedC = topojson.feature(countries, {
+					type: "GeometryCollection",
+					geometries: countries.objects.ne_10m_admin_0_countries.geometries.filter(g => g.properties.ISO_A3 === s)
+				});
 
 
+				let colorSelected = "#DADADA";
+
+				context.fillStyle = colorSelected;
+				context.beginPath();
+				path(selectedC);
+				context.fill();
+
+			})
+		}
+		else{break}
+		
+	}
+
+
+	let colorSelected = "#C70000";
+	let colorFill = "#E9C6BC";
 	let cStr = 'New cases in ';
 	let cInt = 0;
-
-
 	let acum = 0;
 
 	places.map(p => { p.cases.map(c => {
@@ -171,26 +242,16 @@ const makeMap = (date) =>{
 			acum += c.cases;
 		}
 	})})
+	newCountries[date].map(nc => {
+		if(nc != '-99'){
 
-
-	data.map(d => {
-
-		let colorSelected = "#C70000";
-		let colorFill = "#E9C6BC";
-
-
-		cInt += d[date];
-
-
-		if(d[date] > 0 && selectedCountry.indexOf(d.ISO_A3) < 0 && d.ISO_A3 != '-99'){
-
-			let n = countriesStr.find(c => c.iso === d.ISO_A3).name
+			let n = countriesStr.find(c => c.iso === nc).name
 
 			cStr += n + ', '
 
 			const selectedC = topojson.feature(countries, {
 				type: "GeometryCollection",
-				geometries: countries.objects.ne_10m_admin_0_countries.geometries.filter(g => g.properties.ISO_A3 === d.ISO_A3)
+				geometries: countries.objects.ne_10m_admin_0_countries.geometries.filter(g => g.properties.ISO_A3 === nc)
 			});
 
 			context.fillStyle = colorFill;
@@ -202,8 +263,14 @@ const makeMap = (date) =>{
 			/*svg.select('.' + d.ISO_A3)
 			.attr('fill', '#E9C6BC')*/
 
-			selectedCountry.push(d.ISO_A3)
+			//selectedCountry.push(d.ISO_A3)
 		}
+	})
+
+	data.map(d => {
+
+		cInt += d[date];
+
 
 		if(d[date] > 0){
 

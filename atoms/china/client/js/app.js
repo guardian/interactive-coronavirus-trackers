@@ -41,6 +41,8 @@ const map = d3.select('.interactive-china-wrapper')
 .attr('width', width)
 .attr('height', height);
 
+const source = d3.select(".interactive-china-wrapper").append("div").attr('class', 'china-source');
+
 
 const geo = map.append('g');
 const bubbles = map.append('g');
@@ -66,7 +68,7 @@ const parseData = (data) => {
 
 	data.map(d => {
 
-		let area = d3.select('.' + d.ISO_A3.split(' ').join(''))
+		let area = d3.select('.interactive-china-wrapper .' + d.ISO_A3.split(' ').join(''))
 		.classed(' selected', true);
 
 		let centroid = projection([d.lat, d.lon]);
@@ -86,7 +88,7 @@ const parseData = (data) => {
 
 		if(isMobile && d.display == 'block')
 		{
-			if(d.cases > 9){
+			if(d.cases > 20){
 				makeLabel(d, centroid)
 			}
 		}
@@ -124,6 +126,7 @@ loadJson(dataurl)
 
 	headline.html(fileRaw.sheets.asia_furniture[0].text)
 	standfirst.html(fileRaw.sheets.asia_furniture[2].text)
+	source.html(fileRaw.sheets.asia_furniture[1].text)
 	
 	parseData(fileRaw.sheets.asia_cases);
 	window.resize();

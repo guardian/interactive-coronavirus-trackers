@@ -3,17 +3,25 @@
 @import "palette";
 // @import "enhancer";
 
-.interactive-china-wrapper{
+.interactive-america-wrapper{
 	background: white;
 	border-top: 1px solid #dcdcdc;
 	border-bottom: 1px solid #dcdcdc;
+	max-width: 860px;
 }
 
 .country{
 	stroke-width:1.2px;
 	fill:#f6f6f6;
 
-	@include mq(mobile){stroke: #efefef;}
+	@include mq(mobile){stroke: #fafafa;}
+	@include mq(tablet){stroke: #ffffff;}
+}
+
+.state{
+	fill:#f6f6f6;
+
+	@include mq(mobile){stroke: #fafafa;}
 	@include mq(tablet){stroke: #ffffff;}
 }
 
@@ -43,7 +51,7 @@
 }
 
 .headline{@include fs-header(5);}
-.china-standfirst{	
+.america-standfirst{	
 	font-size: 16px;
 	line-height: 24px;
 	font-family: "Guardian Text Egyptian Web",Georgia,serif;
@@ -51,7 +59,7 @@
 	font-weight: 300;
 	margin-top: 6px;
 }
-.china-source{
+.america-source{
 	padding: 6px 0 6px 0;
 	margin: 0;
 	font-family: 'Guardian Text Sans Web', Arial, sans-serif;

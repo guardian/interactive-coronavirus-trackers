@@ -1,8 +1,8 @@
 import * as d3 from 'd3'
 import loadJson from 'shared/js/load-json'
-import { numberWithCommas, getDataUrlForEnvironment  } from 'shared/js/util'
+import { numberWithCommas, getRecoveredDataUrlForEnvironment  } from 'shared/js/util'
 
-let dataurl = getDataUrlForEnvironment();
+let dataurl = getRecoveredDataUrlForEnvironment();
 
 
 let isMobile = window.matchMedia('(max-width: 620px)').matches;
@@ -86,8 +86,6 @@ loadJson(dataurl)
 
 		latest.push({date:parseTime(d), recovered:recovered});
 	})
-
-	console.log(latest)
 
 	let recoveredScale = 0;
 	let recoveredScaleStr = '0';

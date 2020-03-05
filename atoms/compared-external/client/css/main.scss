@@ -8,7 +8,7 @@
 	padding: 0;
 }
 
-.interactive-compared-wrapper{
+.interactive-compared-external-wrapper{
 
 	
 
@@ -41,6 +41,27 @@
 
 	@include mq($from: 100px, $until: 500px) {width: 100%;}
 }
+
+.gv-button-container{
+	order: 2;
+
+	align-self: flex-end;
+
+	position: absolute;
+
+	justify-content: flex-start;
+	@include mq($from: 100px, $until: 500px) {
+		order: 4;
+
+		position: relative;
+
+		margin-top: 6px;
+		//align-self:flex-end;
+
+		//width: 100%;
+	}
+}
+
 
 .gv-totals-container{
 
@@ -108,7 +129,7 @@
 
 
 
-.interactive-compared-wrapper .gv-total-container:nth-child(1){
+.interactive-compared-external-wrapper .gv-total-container:nth-child(1){
 	border-left: 1px solid #dcdcdc;
 
 	@include mq($from: 100px, $until: 500px) {

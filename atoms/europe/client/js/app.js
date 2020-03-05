@@ -67,13 +67,11 @@ const parseData = (data) => {
 
 	data.map(d => {
 
-		console.log(d)
-
 
 		if(!isNaN(+d.cases) && +d.cases != 0)
 		{
 
-			let area = d3.selectAll('.' + d.ISO_A3.split(' ').join(''))
+			let area = d3.selectAll('.interactive-europe-wrapper .' + d.ISO_A3.split(' ').join(''))
 			.classed(' selected', true);
 
 			let centroid = projection([d.lat, d.lon]);
@@ -93,15 +91,11 @@ const parseData = (data) => {
 
 			if(isMobile && d.display == 'block')
 			{
-				if(d.cases > 9){
+				if(d.cases > 20){
 					makeLabel(d)
 				}
 			}
-			
 		}
-
-		
-		
 	})
 
 }
@@ -118,7 +112,7 @@ const makeLabel = (d) =>{
 	.append("tspan")
 	.attr('class','country-label')
 	.text(d.NAME)
-	.attr('x', d.offset_horizontal || 0) 
+	.attr('x', +d.offset_horizontal || 0) 
 	.attr('y', -(d.offset_vertical) )
 
 	label

@@ -8,7 +8,7 @@ const d3 = Object.assign({}, d3B);
 
 let isMobile = window.matchMedia('(max-width: 620px)').matches;
 
-const atomEl = d3.select('.interactive-compared-wrapper').node();
+const atomEl = d3.select('.interactive-compared-external-wrapper').node();
 
 let width = atomEl.getBoundingClientRect().width;
 let height = isMobile ? width * 1.6 : 752 * width / 1260;
@@ -22,15 +22,15 @@ let latestDeaths = 0;
 let latestRecovered = 0;
 
 
-let casesDiv = d3.select('.gv-totals-container')
+let casesDiv = d3.select('.interactive-compared-external-wrapper .gv-totals-container')
 .append('div')
 .attr('class', 'gv-total-container')
 
-let deathsDiv = d3.select('.gv-totals-container')
+let deathsDiv = d3.select('.interactive-compared-external-wrapper .gv-totals-container')
 .append('div')
 .attr('class', 'gv-total-container')
 
-let recoveredDiv = d3.select('.gv-totals-container')
+let recoveredDiv = d3.select('.interactive-compared-external-wrapper .gv-totals-container')
 .append('div')
 .attr('class', 'gv-total-container')
 
