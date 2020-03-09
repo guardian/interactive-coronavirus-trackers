@@ -1,0 +1,41 @@
+@import "fonts";
+@import "mq";
+@import "palette";
+// @import "enhancer";
+
+.interactive-atom {
+    margin: 0;
+    padding: 0;
+}
+
+.co-table {
+    @include fs-bodyCopy(2);
+
+    & thead {
+        font-weight: bold;
+
+    }
+
+    & tbody tr {
+        border-bottom: 1px solid #eaeaea;
+    }
+}
+
+.co-table-state {
+    width: 60%;
+}
+
+.co-table-cases, .co-td-cases {
+    text-align: right;
+}
+
+.co-table {
+    width: 100%;
+    max-width: 620px;
+    margin-bottom: 1.5px;
+}
+
+.co-source {
+    @include fs-textSans(3);
+    color: #767676;
+}

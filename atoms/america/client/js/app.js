@@ -1,4 +1,5 @@
 import * as topojson from 'topojson'
+import * as d3b from 'd3'
 import * as geoProjection from 'd3-geo-projection'
 import { $, getAmericaDataUrlForEnvironment } from "shared/js/util"
 import americaMap from 'assets/america.json'
@@ -8,7 +9,7 @@ import loadJson from 'shared/js/load-json'
 
 let dataurl = getAmericaDataUrlForEnvironment();
 
-const d3 = Object.assign({}, d3B, topojson, geoProjection);
+const d3 = Object.assign({}, d3b, topojson, geoProjection);
 
 const headline = d3.select(".interactive-america-wrapper").append("h2").attr('class', 'headline');
 const standfirst = d3.select(".interactive-america-wrapper").append("div").attr('class', 'america-standfirst');
@@ -18,9 +19,35 @@ const atomEl = d3.select('.interactive-america-wrapper').node()
 const isMobile = window.matchMedia('(max-width: 600px)').matches;
 
 let width = atomEl.getBoundingClientRect().width;
-let height =  isMobile ? width * 1.1 : width * 3.5 / 5;
+let height =  width * 0.7
 
-let projection = d3.geoTwoPointEquidistantUsa()
+const statesFc = {
+	type : 'FeatureCollection',
+	features : topojson.feature(americaStatesMap, americaStatesMap.objects['america-states'])
+		.features.filter( f => f.properties.gu_a3 === 'USA' )
+}
+
+const stateCodes = statesFc.features.map( f => f.properties.postal )
+
+const stateObjects = statesFc.features.map( f => {
+	return {
+		name : f.properties.name,
+		code : f.properties.postal
+	}
+})
+
+console.log(JSON.stringify(stateObjects))
+
+const clean = str => {
+	return str.replace('D.C.', 'DC')
+}
+
+console.log(statesFc)
+
+let projection = d3.geoAlbersUsa()
+
+.fitSize([ width, height ], statesFc)
+
 //.rotate([0.0, 0.0])
 //.center([0.0, 52.0])
 //.parallels([35.0, 65.0])
@@ -48,20 +75,21 @@ const americaExtent = topojson.feature(americaMap, {
 });
 
 const radius = d3.scaleSqrt()
+
 .range([0, 20])
 
-projection.fitExtent([[isMobile ? -200 : -400, isMobile ? -150 : -200], [width - 20 	, height]], americaExtent);
+//projection.fitExtent([[isMobile ? -200 : -400, isMobile ? -150 : -200], [width - 20 	, height]], americaExtent);
 
-geo.selectAll('path')
-.data(topojson.feature(americaMap, americaMap.objects.america).features)
-.enter()
-.filter(d => d.properties.ISO_A3 != '-99')
-.append('path')
-.attr('d', path)
-.attr('class', d => 'country ' + d.properties.NAME.replace(' ', '').replace('.', ''))
+// geo.selectAll('path')
+// .data(topojson.feature(americaMap, americaMap.objects.america).features)
+// .enter()
+// .filter(d => d.properties.ISO_A3 != '-99')
+// .append('path')
+// .attr('d', path)
+// .attr('class', d => 'country ' + d.properties.NAME.replace(' ', '').replace('.', ''))
 
 states.selectAll('path')
-.data(topojson.feature(americaStatesMap, americaStatesMap.objects['america-states']).features)
+.data(statesFc.features)
 .enter()
 .append('path')
 .attr('d', path)
@@ -74,13 +102,27 @@ states.selectAll('lakes')
 .attr('d', path)
 .attr('fill', 'white')
 
+const validUSCase = str => {
+	return stateCodes.indexOf(str.split(', ').slice(-1)[0]) >= 0
+}
+
 const parseData = (data) => {
 
 	let max = d3.max(data, d => +d.cases );
 
 	radius.domain([0, max])
 
-	data.map(d => {
+	data
+
+		.map( row => {
+
+			return Object.assign({}, row, { 'Province/State' : clean(row['Province/State']) })
+
+		} )
+
+		.filter( row => validUSCase(row['Province/State']) )
+
+		.forEach(d => {
 
 
 		if(!isNaN(+d.cases) && +d.cases > 0)
@@ -89,16 +131,20 @@ const parseData = (data) => {
 			if(d['Country/Region'] != "")
 			{
 				d3.selectAll('.interactive-america-wrapper .' + d['Country/Region'].replace(' ', '').replace('.', ''))
-				.classed(' selected', true);
+				.classed('selected', true);
 			}
-			else
-			{
-				d3.selectAll('.interactive-america-wrapper .' + d['Province/State'].split(', ')[1])
-				.classed(' selected', true);
+			else {
+
+				const str = '.interactive-america-wrapper .' + d['Province/State'].split(', ')[1]
+				console.log(str)
+				d3.selectAll(str)
+				.classed('selected', true);
 			}
 			
 
 			let centroid = projection([d.lon, d.lat]);
+
+			if(centroid) {
 
 			bubbles
 			.append('circle')
@@ -120,6 +166,13 @@ const parseData = (data) => {
 					makeLabel(d)
 				}
 			}
+
+			} else {
+
+				console.log("no centroid")
+				console.log(d)
+			}
+
 		}
 	})
 
@@ -139,6 +192,23 @@ const makeLabel = (d) =>{
 	}
 
 	let centroid = projection([d.lon, d.lat]);
+
+	let labelWhite = labels.append('text')
+	.attr('transform', 'translate(' + centroid[0] + ',' + centroid[1] + ')')
+
+	labelWhite
+	.append("tspan")
+	.attr('class','country-label country-label--white')
+	.text(txt)
+	.attr('x', +d.offset_horizontal || 0) 
+	.attr('y', -(d.offset_vertical) )
+
+	labelWhite
+	.append('tspan')
+	.attr('class','country-cases country-cases--white')
+	.text(d.text)
+	.attr('x', d.offset_horizontal || 0)
+	.attr('dy', '15' )
 
 	let label = labels.append('text')
 	.attr('transform', 'translate(' + centroid[0] + ',' + centroid[1] + ')')
