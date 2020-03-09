@@ -26,7 +26,12 @@
 }
 
 .co-table-state {
-    width: 60%;
+
+    width: 55%;
+    
+    @include mq($from: 360px) {
+        width: 60%;
+    }
 }
 
 .co-table-cases, .co-td-cases {
