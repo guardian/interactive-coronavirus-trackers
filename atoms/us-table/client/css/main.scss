@@ -17,7 +17,11 @@
     }
 
     & tbody tr {
-        border-bottom: 1px solid #eaeaea;
+        border-top: 1px solid #eaeaea;
+    }
+
+    td {
+        padding-bottom: 2px;
     }
 }
 

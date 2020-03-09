@@ -1,28 +1,27 @@
 @import "fonts";
 @import "mq";
 @import "palette";
-// @import "enhancer";
+@import "enhancer";
 
 .interactive-america-wrapper{
 	background: white;
 	border-top: 1px solid #dcdcdc;
-	border-bottom: 1px solid #dcdcdc;
+	//border-bottom: 1px solid #dcdcdc;
 	max-width: 860px;
+	margin-bottom: 12px;
 }
 
-.country{
-	stroke-width:1.2px;
-	fill:#f6f6f6;
+// .country{
+// 	stroke-width:1.2px;
+// 	fill:#f6f6f6;
 
-	@include mq(mobile){stroke: #fafafa;}
-	@include mq(tablet){stroke: #ffffff;}
-}
+// 	@include mq(mobile){stroke: #fafafa;}
+// 	@include mq(tablet){stroke: #ffffff;}
+// }
 
 .state{
 	fill:#f6f6f6;
 
-	@include mq(mobile){stroke: #fafafa;}
-	@include mq(tablet){stroke: #ffffff;}
 }
 
 .selected{
@@ -90,5 +89,10 @@
 	color:#767676;
 	display: inline-block;
 	width: 100%;
-	border-bottom: 1px solid #dcdcdc;
+	//border-bottom: 1px solid #dcdcdc;
+}
+
+.co-state-mesh {
+	stroke: white;
+	fill: none;
 }

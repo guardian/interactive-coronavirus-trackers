@@ -28,6 +28,13 @@ const statesFc = {
 		.features.filter( f => f.properties.gu_a3 === 'USA' )
 }
 
+const stateMesh = topojson.mesh(americaStatesMap,
+	americaStatesMap.objects['america-states'],
+	(a, b) => {
+
+		return a !== b && a.properties.gu_a3 === 'USA' && b.properties.gu_a3 === 'USA'
+	})
+
 const stateCodes = statesFc.features.map( f => f.properties.postal )
 
 const stateObjects = statesFc.features.map( f => {
@@ -67,6 +74,7 @@ const source = d3.select(".interactive-america-wrapper").append("div").attr('cla
 
 const geo = map.append('g');
 const states = map.append('g');
+const meshG = map.append('g')
 const bubbles = map.append('g');
 const labels = map.append('g');
 
@@ -87,6 +95,10 @@ states.selectAll('path')
 .append('path')
 .attr('d', path)
 .attr('class', d => 'state ' + d.properties.postal)
+
+const meshShape = states.append('path')
+	.attr('d', path(stateMesh))
+	.attr('class', 'co-state-mesh')
 
 states.selectAll('lakes')
 .data(topojson.feature(lakes, lakes.objects['great-lakes']).features)
