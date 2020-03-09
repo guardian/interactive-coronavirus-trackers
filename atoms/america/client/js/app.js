@@ -3,7 +3,6 @@ import * as topojson from 'topojson'
 import * as d3b from 'd3'
 import * as geoProjection from 'd3-geo-projection'
 import { $, getAmericaDataUrlForEnvironment } from "shared/js/util"
-import americaMap from 'assets/america.json'
 import americaStatesMap from 'assets/america-states.json'
 import lakes from 'assets/great-lakes.json'
 import loadJson from 'shared/js/load-json'
@@ -78,10 +77,6 @@ const meshG = map.append('g')
 const bubbles = map.append('g');
 const labels = map.append('g');
 
-const americaExtent = topojson.feature(americaMap, {
-	type: "GeometryCollection",
-	geometries: americaMap.objects.america.geometries.filter(d => d.properties.ISO_A3 === 'USA' || d.properties.ISO_A3 === 'DOM' || d.properties.ISO_A3 === 'MEX')
-});
 
 const radius = d3.scaleSqrt()
 
