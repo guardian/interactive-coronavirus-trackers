@@ -28,7 +28,7 @@
 .selected{
 	stroke:#ffffff;
 	stroke-opacity:1;
-	fill:#eaeaea;
+	fill: rgba($news-red, 0.2);
 	fill-opacity:1;
 }
 
@@ -44,20 +44,42 @@
 	font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
 	font-size: 14px;
 	font-weight: 900;
+
+	&.country-label--white {
+		stroke: white;
+		stroke-width: 3;
+		stroke-opacity: 0.6;
+		fill: none;
+	}
 }
 .country-cases{
 	font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
 	font-size: 14px;
+
+	&.country-cases--white {
+		stroke: white;
+		stroke-width: 3;
+		stroke-opacity: 0.6;
+		fill: none;
+	}
 }
 
-.headline{@include fs-header(5);}
+.headline{
+
+	margin-top: 2px;
+
+	@include fs-header(3);
+
+	@include mq($from: desktop) {
+		@include fs-header(5);
+	}
+}
 .america-standfirst{	
 	font-size: 16px;
 	line-height: 24px;
 	font-family: "Guardian Text Egyptian Web",Georgia,serif;
 	margin-bottom: 12px;
 	font-weight: 300;
-	margin-top: 6px;
 }
 .america-source{
 	padding: 6px 0 6px 0;
