@@ -47,14 +47,14 @@ const emeaExtent = topojson.feature(europeMap, {
 });
 
 const radius = d3.scaleSqrt()
-.range([0, 60])
+.range([0, isMobile ? 40 : 60])
 
 projection.fitExtent([[0, 20], [width, height + 50]], emeaExtent);
 
 geo.selectAll('path')
 .data(topojson.feature(europeMap, europeMap.objects.europe).features)
 .enter()
-.filter(d => d.properties.ISO_A3 != '-99')
+.filter(d => d.properties.ISO_A3 != '-99' && d.properties.ISO_A3 != '#N/A')
 .append('path')
 .attr('d', path)
 .attr('class', d => 'country ' + d.properties.ISO_A3.split(' ').join(''))
@@ -68,20 +68,25 @@ const parseData = (data) => {
 	data.map(d => {
 
 
+
 		if(!isNaN(+d.cases) && +d.cases != 0)
 		{
+
 
 			let area = d3.selectAll('.interactive-europe-wrapper .' + d.ISO_A3.split(' ').join(''))
 			.classed(' selected', true);
 
-			let centroid = projection([d.lat, d.lon]);
+			let centroid = projection([d.lon, d.lat]);
 
-			bubbles
+
+			let bubble = bubbles
 			.append('circle')
 			.attr("class", "bubble")
 			.attr("r", radius(+d.cases))
 			.attr("cx", centroid[0])
 			.attr("cy", centroid[1])
+
+
 
 			if(!isMobile && d.display == 'block')
 			{
@@ -91,7 +96,7 @@ const parseData = (data) => {
 
 			if(isMobile && d.display == 'block')
 			{
-				if(d.cases > 20){
+				if(d.cases > 50){
 					makeLabel(d)
 				}
 			}
@@ -103,7 +108,7 @@ const parseData = (data) => {
 
 const makeLabel = (d) =>{
 
-	let centroid = projection([d.lat, d.lon]);
+	let centroid = projection([d.lon, d.lat]);
 
 	let label = labels.append('text')
 	.attr('transform', 'translate(' + centroid[0] + ',' + centroid[1] + ')')

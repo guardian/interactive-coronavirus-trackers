@@ -1,3 +1,4 @@
+import * as d3B from 'd3'
 import * as topojson from 'topojson'
 import * as geoProjection from 'd3-geo-projection'
 import { $, getAmericaDataUrlForEnvironment } from "shared/js/util"
@@ -55,7 +56,7 @@ projection.fitExtent([[isMobile ? -200 : -400, isMobile ? -150 : -200], [width -
 geo.selectAll('path')
 .data(topojson.feature(americaMap, americaMap.objects.america).features)
 .enter()
-.filter(d => d.properties.ISO_A3 != '-99')
+.filter(d => d.properties.ISO_A3 != '-99' && d.properties.ISO_A3 != '#N/A')
 .append('path')
 .attr('d', path)
 .attr('class', d => 'country ' + d.properties.NAME.replace(' ', '').replace('.', ''))
@@ -82,8 +83,11 @@ const parseData = (data) => {
 
 	data.map(d => {
 
+		let state = d['Province/State'].split(', ')[1]
 
-		if(!isNaN(+d.cases) && +d.cases > 0)
+		if(state)console.log(d['Province/State'], state, d3.selectAll('.interactive-america-wrapper .' + state.replace(/\./g,'')))
+
+		if(!isNaN(+d.cases) && +d.cases > 0 && state != undefined)
 		{
 
 			if(d['Country/Region'] != "")
@@ -93,9 +97,11 @@ const parseData = (data) => {
 			}
 			else
 			{
-				d3.selectAll('.interactive-america-wrapper .' + d['Province/State'].split(', ')[1])
+				d3.selectAll('.interactive-america-wrapper .' + state.replace(/\./g,''))
 				.classed(' selected', true);
 			}
+
+
 			
 
 			let centroid = projection([d.lon, d.lat]);

@@ -10,6 +10,28 @@ let isMobile = window.matchMedia('(max-width: 620px)').matches;
 
 const atomEl = d3.select('.interactive-compared-external-wrapper').node();
 
+//let isPage = document.referrer && document.referrer.indexOf('coronavirus-map-cases-how-covid-19-is-spreading') > -1;
+
+//console.log('=>', window, window.location.href('coronavirus-map-cases-how-covid-19-is-spreading'))
+
+let isPage = false;
+
+
+  if (window) {
+    if (window.location) {
+      if (window.location.href) {
+        if (window.location.href.indexOf("coronavirus-map-cases-how-covid-19-is-spreading") > -1)
+          isPage = true;
+      }
+    }
+  }
+
+  if (!isPage) {
+    d3.select('.gv-button-container')
+	.classed('render', true)
+  }
+ 
+
 let width = atomEl.getBoundingClientRect().width;
 let height = isMobile ? width * 1.6 : 752 * width / 1260;
 
@@ -20,6 +42,34 @@ let latestDate;
 let latestCases = 0;
 let latestDeaths = 0;
 let latestRecovered = 0;
+
+
+/*casesDiv.append('p')
+		.html('Confirmed cases')
+		.style('color', '#c70000')
+
+casesDiv.append('span')
+		.html(numberWithCommas(data[1].features[0].attributes.value))
+		.style('color', '#c70000')
+
+deathsDiv.append('p')
+		.html('Deaths')
+		.style('color', '#333')
+
+deathsDiv
+		.append('span')
+		.html(numberWithCommas(data[0].features[0].attributes.value))
+		.style('color', '#333')
+
+recoveredDiv.append('p')
+		.html('Recovered')
+		.style('color', '#d6d6d6')
+
+recoveredDiv.append('span')
+		.html(numberWithCommas(data[2].features[0].attributes.value))
+		.style('color', '#d6d6d6')
+
+d3.select('.gv-totals-timestamp').html("Data correct at " + timestamp)*/
 
 
 let casesDiv = d3.select('.interactive-compared-external-wrapper .gv-totals-container')

@@ -12,14 +12,16 @@
 
 	
 
-	background: white;
+	//background: #dcdcdc;
+
+	width: 100%;
 
 	
 }
 .gv-totals-headline{
 	width: 100%;
 
-	max-width: 860px;
+	//max-width: 860px;
 
 	display: flex;
 
@@ -41,8 +43,10 @@
 
 	@include mq($from: 100px, $until: 500px) {width: 100%;}
 }
+.gv-button-container{display: none;}
+.gv-button-container.render{
+	display: block;
 
-.gv-button-container{
 	order: 2;
 
 	align-self: flex-end;
