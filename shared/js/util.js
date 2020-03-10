@@ -246,10 +246,35 @@ let isPreview = false;
     return "https://interactive.guim.co.uk/docsdata-test/11bYpZJ25ccD9UXO4ipd_6kdmZWHt1B3byqAOgx5HsH4.json"
   }
   else {
-    return "https://interactive.guim.co.uk/docsdata/11bYpZJ25ccD9UXO4ipd_6kdmZWHt1B3byqAOgx5HsH4.json"
+    return "https://interactive.guim.co.uk/docsdata-test/11bYpZJ25ccD9UXO4ipd_6kdmZWHt1B3byqAOgx5HsH4.json"
   }
 
 };
+
+const getUKDataUrlForEnvironment = () => {
+
+let isPreview = false;
+
+
+  if (window) {
+    if (window.location) {
+      if (window.location.href) {
+        if (window.location.href.indexOf("gutools") > -1)
+          isPreview = true;
+      }
+    }
+  }
+
+  if (isPreview) {
+    return "https://interactive.guim.co.uk/docsdata-test/1m1PXaXHGq4X-7VK2u37qxQ8TkOU9x0bfTeh9QmoYzMo.json"
+  }
+  else {
+    return "https://interactive.guim.co.uk/docsdata/1m1PXaXHGq4X-7VK2u37qxQ8TkOU9x0bfTeh9QmoYzMo.json"
+  }
+
+};
+
+
 
 
 
@@ -273,5 +298,6 @@ export {
   getRecoveredDataUrlForEnvironment,
   getAsiaDataUrlForEnvironment,
   getEmeaDataUrlForEnvironment,
-  getAmericaDataUrlForEnvironment
+  getAmericaDataUrlForEnvironment,
+  getUKDataUrlForEnvironment
 };
