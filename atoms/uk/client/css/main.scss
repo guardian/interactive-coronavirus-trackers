@@ -1,0 +1,40 @@
+@import "fonts";
+@import "mq";
+@import "palette";
+// @import "enhancer";
+
+.interactive-atom {
+    margin: 0;
+    padding: 0;
+}
+
+.interactive-uk-wrapper
+{
+	display: flex;
+
+	flex-direction: row;
+
+	.area{
+	fill:#f6f6f6;
+
+	@include mq(mobile){stroke: #fafafa;}
+	@include mq(tablet){stroke: #ffffff;}
+	}
+
+	.selected{
+		stroke:#ffffff;
+		stroke-opacity:1;
+		fill:#eaeaea;
+		fill-opacity:1;
+	}
+
+	.bubble{
+		stroke:#c70000;
+		stroke-opacity:1;
+		fill:#E9C6BC;
+		fill-opacity:0.2;
+	}
+
+
+}
+

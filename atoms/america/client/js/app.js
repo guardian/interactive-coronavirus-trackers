@@ -43,13 +43,9 @@ const stateObjects = statesFc.features.map( f => {
 	}
 })
 
-console.log(JSON.stringify(stateObjects))
-
 const clean = str => {
 	return str.replace('D.C.', 'DC')
 }
-
-console.log(statesFc)
 
 let projection = d3.geoAlbersUsa()
 
@@ -126,11 +122,10 @@ const parseData = (data) => {
 
 		let state = d['Province/State'].split(', ')[1]
 
-		if(state)console.log(d['Province/State'], state, d3.selectAll('.interactive-america-wrapper .' + state.replace(/\./g,'')))
+		//if(state)console.log(d['Province/State'], state, d3.selectAll('.interactive-america-wrapper .' + state.replace(/\./g,'')))
 
 		if(!isNaN(+d.cases) && +d.cases > 0 && state != undefined)
 		{
-
 
 			const str = '.interactive-america-wrapper .' + d['Province/State'].split(', ')[1]
 			d3.selectAll(str)
@@ -140,26 +135,26 @@ const parseData = (data) => {
 
 			if(centroid) {
 
-			bubbles
-			.append('circle')
-			.attr("class", "bubble")
-			.attr("r", radius(+d.cases))
-			.attr("cx", centroid[0])
-			.attr("cy", centroid[1])
+				bubbles
+				.append('circle')
+				.attr("class", "bubble")
+				.attr("r", radius(+d.cases))
+				.attr("cx", centroid[0])
+				.attr("cy", centroid[1])
 
-			if(!isMobile && d.display == 'block')
-			{
-				if(d.cases > 1){
-					makeLabel(d)
+				if(!isMobile && d.display == 'block')
+				{
+					if(d.cases > 1){
+						makeLabel(d, centroid)
+					}
 				}
-			}
 
-			if(isMobile && d.display == 'block')
-			{
-				if(d.cases > 2){
-					makeLabel(d)
+				if(isMobile && d.display == 'block')
+				{
+					if(d.cases > 2){
+						makeLabel(d, centroid)
+					}
 				}
-			}
 
 			} else {
 
@@ -172,16 +167,9 @@ const parseData = (data) => {
 
 }
 
-const makeLabel = (d) =>{
+const makeLabel = (d, centroid) =>{
 
-	let txt
-
-	if(d['Province/State'] != '')
-	{
-		txt = d['Province/State'].replace('County', '').replace(' ,', ',')
-	}
-
-	let centroid = projection([d.Long, d.Lat]);
+	let txt = d['Province/State'].replace('County', '').replace(' ,', ',')
 
 	let labelWhite = labels.append('text')
 	.attr('transform', 'translate(' + centroid[0] + ',' + centroid[1] + ')')
