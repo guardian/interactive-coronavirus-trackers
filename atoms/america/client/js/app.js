@@ -131,22 +131,12 @@ const parseData = (data) => {
 		if(!isNaN(+d.cases) && +d.cases > 0 && state != undefined)
 		{
 
-			if(d['Country/Region'] != "")
-			{
-				d3.selectAll('.interactive-america-wrapper .' + d['Country/Region'].replace(' ', '').replace('.', ''))
-				.classed('selected', true);
-			}
-			else {
 
-				const str = '.interactive-america-wrapper .' + d['Province/State'].split(', ')[1]
-				d3.selectAll(str)
-				.classed('selected', true);
-			}
+			const str = '.interactive-america-wrapper .' + d['Province/State'].split(', ')[1]
+			d3.selectAll(str)
+			.classed('selected', true);
 
-
-			
-
-			let centroid = projection([d.lon, d.lat]);
+			let centroid = projection([d.Long, d.Lat]);
 
 			if(centroid) {
 
@@ -190,12 +180,8 @@ const makeLabel = (d) =>{
 	{
 		txt = d['Province/State'].replace('County', '').replace(' ,', ',')
 	}
-	else
-	{
-		txt = d['Country/Region'];
-	}
 
-	let centroid = projection([d.lon, d.lat]);
+	let centroid = projection([d.Long, d.Lat]);
 
 	let labelWhite = labels.append('text')
 	.attr('transform', 'translate(' + centroid[0] + ',' + centroid[1] + ')')
