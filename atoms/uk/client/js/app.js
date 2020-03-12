@@ -15,10 +15,13 @@ const maps = d3.select(".interactive-uk-wrapper").append("div").attr('class', 'm
 
 const atomEl = d3.select('.interactive-uk-wrapper').node()
 
-const isMobile = window.matchMedia('(max-width: 500px)').matches;
+const isMobile = window.matchMedia('(max-width: 620px)').matches;
 
-let width = isMobile ? atomEl.getBoundingClientRect().width : atomEl.getBoundingClientRect().width / 2;
-let height =  isMobile ? width * 1.1 : (width * 2) * 3.5 / 5;
+console.log(isMobile)
+
+let width = isMobile ? atomEl.getBoundingClientRect().width : (atomEl.getBoundingClientRect().width / 3) * 2;
+let height =  width / 3 * 5;
+let londonW =  isMobile ? 300 : atomEl.getBoundingClientRect().width - width;
 
 const radius = d3.scaleSqrt()
 .range([0, 10])
@@ -39,15 +42,11 @@ const mapUk = maps
 .attr('height', height)
 .on('click',function (){mouse(this)} )
 
-const mouse = (a) => {
-	console.log(projection.invert(d3.mouse(a)))
-}
-
 const mapLondon = maps
 .append('svg')
 .attr('id', 'coronavirus-london-map-svg')
-.attr('width', 300)
-.attr('height', 300)
+.attr('width', londonW)
+.attr('height', londonW)
 
 const source = d3.select(".interactive-uk-wrapper").append("div").attr('class', 'source');
 
@@ -64,7 +63,7 @@ const london = topojson.feature(covirMap, {
 	geometries: covirMap.objects['covid-uk'].geometries.filter(d => d.properties.ctyua17cd.indexOf('E09') > -1)
 });
 
-projection.fitExtent([[0, 0], [width , height]], topojson.feature(covirMap, covirMap.objects['covid-uk']));
+projection.fitExtent([[0, -20], [width - 15, height]], topojson.feature(covirMap, covirMap.objects['covid-uk']));
 
 geoUk.selectAll('path')
 .data(topojson.feature(covirMap, covirMap.objects['covid-uk']).features)
@@ -72,8 +71,46 @@ geoUk.selectAll('path')
 .append('path')
 .attr('d', path)
 .attr('class', d => 'area ' + d.properties.ctyua17cd)
+ 
 
-projectionLondon.fitExtent([[0, 0], [300 , 300 ]], london);
+const rectangle1 = topojson.feature(covirMap, {
+	type: "GeometryCollection",
+	geometries: covirMap.objects['covid-uk'].geometries.filter(d => d.properties.ctyua17cd == 'S08000026')
+});
+
+const rectangle2 = topojson.feature(covirMap, {
+	type: "GeometryCollection",
+	geometries: covirMap.objects['covid-uk'].geometries.filter(d => d.properties.ctyua17cd == 'S08000025')
+});
+
+let recBounds1 = d3.geoBounds(rectangle1);
+let recBounds2 = d3.geoBounds(rectangle2);
+
+let rec1X = projection(recBounds1[0])[0] - 5;
+let rec1Y = projection(recBounds1[1])[1] - 5;
+let rec1W = projection(recBounds1[1])[0] - rec1X;
+let rec1H = projection(recBounds1[0])[1] - rec1Y;
+
+geoUk.append('rect')
+.attr("x", rec1X)
+.attr("y", rec1Y)
+.attr("width", rec1W)
+.attr("height", rec1H)
+.attr('class', 'islands-rectangle');
+
+let rec2X = projection(recBounds2[0])[0] - 5;
+let rec2Y = projection(recBounds2[1])[1] - 5;
+let rec2W = projection(recBounds2[1])[0] - rec2X;
+let rec2H = projection(recBounds2[0])[1] - rec2Y;
+
+geoUk.append('rect')
+.attr("x", rec2X)
+.attr("y", rec2Y)
+.attr("width", rec2W)
+.attr("height", rec2H)
+.attr('class', 'islands-rectangle');
+
+projectionLondon.fitExtent([[0, 0], [londonW , londonW ]], london);
 
 geoLondon.selectAll('path')
 .data(london.features)
@@ -208,7 +245,12 @@ loadJson(dataurl)
 
 			
 		})
-	})
+
+
+		window.resize();
+})
+
+
 
 
 const makeLabel = (d, centroid, labels) =>{
