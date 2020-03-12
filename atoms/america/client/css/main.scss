@@ -21,8 +21,12 @@
 
 .state{
 	fill:#f6f6f6;
-
 }
+
+.state:hover {
+	fill-opacity: .5;
+}
+
 
 .selected{
 	stroke:#ffffff;
@@ -73,7 +77,7 @@
 		@include fs-header(5);
 	}
 }
-.america-standfirst{	
+.america-standfirst{
 	font-size: 16px;
 	line-height: 24px;
 	font-family: "Guardian Text Egyptian Web",Georgia,serif;
