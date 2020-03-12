@@ -109,7 +109,13 @@ const stateMesh = topojson.mesh(americaStatesMap,
 	filters.forEach (
 		function(currentValue) {
 			currentValue.addEventListener('click', function(e) {
-				drawMap(dataurl, parseData);
+				var target = e.target || e.srcElementl
+				if (target.getAttribute('data-filter') == 'county-level'){
+					drawMap(dataurl, parseData);
+				}
+				else {
+					drawMap(metadataurl, parseMetadata);
+				}
 			})
 		});
 
@@ -143,15 +149,14 @@ const stateMesh = topojson.mesh(americaStatesMap,
 
 			.map( row => {
 
-				return Object.assign({}, row)
+			return Object.assign({}, row, { 'Province/State' : clean(row['Province/State']) })
 
-			} )
+		} )
 
-			//.filter( row => validUSCase(row['Province/State']) )
+			.filter( row => validUSCase(row['Province/State']) )
 
 			.forEach(d => {
 
-				console.log(d['Province/State']);
 				let state = d['Province/State'].split(', ')[1]
 
 				//if(state)console.log(d['Province/State'], state, d3.selectAll('.interactive-america-wrapper .' + state.replace(/\./g,'')))
@@ -192,9 +197,10 @@ const stateMesh = topojson.mesh(americaStatesMap,
 
 						*/
 					} else {
-
+						/*
 						console.log("no centroid")
 						console.log(d)
+						*/
 					}
 
 				}
@@ -259,8 +265,10 @@ const stateMesh = topojson.mesh(americaStatesMap,
 		*/
 
 	} else {
+		/*
 		console.log("no centroid")
 		console.log(d)
+		*/
 	}
 }
 })
