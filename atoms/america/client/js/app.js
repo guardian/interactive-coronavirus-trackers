@@ -7,17 +7,18 @@ import americaStatesMap from 'assets/america-states.json'
 import lakes from 'assets/great-lakes.json'
 import loadJson from 'shared/js/load-json'
 
+//set the spreadsheets where you're pulling in the data
 let dataurl = getAmericaDataUrlForEnvironment();
+const metadataurl = 'https://interactive.guim.co.uk/docsdata-test/1ErpXeufokUQ4U_M41ZdoQyF5fwQ0lq-17esQMIABbXU.json';
 
+
+//set d3/page specs
 const d3 = Object.assign({}, d3b, topojson, geoProjection);
-
 const headline = d3.select(".interactive-america-wrapper").append("h2").attr('class', 'headline');
 const standfirst = d3.select(".interactive-america-wrapper").append("div").attr('class', 'america-standfirst');
 
 const atomEl = d3.select('.interactive-america-wrapper').node()
-
 const isMobile = window.matchMedia('(max-width: 600px)').matches;
-
 let width = atomEl.getBoundingClientRect().width;
 let height =  width * 0.7
 
@@ -76,21 +77,26 @@ const labels = map.append('g');
 
 const radius = d3.scaleSqrt()
 
-.range([0, 20])
+.range([0, 15])
 
 //projection.fitExtent([[isMobile ? -200 : -400, isMobile ? -150 : -200], [width - 20 	, height]], americaExtent);
 
+
+//add in filter attributes to the states
 states.selectAll('path')
 .data(statesFc.features)
 .enter()
 .append('path')
 .attr('d', path)
 .attr('class', d => 'state ' + d.properties.postal)
+.attr('emergency', d => 'bruh')
+
 
 const meshShape = states.append('path')
 	.attr('d', path(stateMesh))
 	.attr('class', 'co-state-mesh')
 
+//draw the states
 states.selectAll('lakes')
 .data(topojson.feature(lakes, lakes.objects['great-lakes']).features)
 .enter()
@@ -98,10 +104,7 @@ states.selectAll('lakes')
 .attr('d', path)
 .attr('fill', 'white')
 
-const validUSCase = str => {
-	return stateCodes.indexOf(str.split(', ').slice(-1)[0]) >= 0
-}
-
+//get the data from spreadsheets and store in variables
 const parseData = (data) => {
 
 	let max = d3.max(data, d => +d.cases );
@@ -164,9 +167,71 @@ const parseData = (data) => {
 
 		}
 	})
-
 }
 
+//get the data from spreadsheets and store in variables
+const parseMetadata = (data) => {
+	console.log(data);
+	let max = d3.max(data, d => +d.Positive );
+
+	radius.domain([0, max])
+
+	data
+
+		.map( row => {
+
+			return Object.assign({}, row)
+
+		} )
+
+		.forEach(d => {
+
+		let state = d['State']
+
+		//if(state)console.log(d['Province/State'], state, d3.selectAll('.interactive-america-wrapper .' + state.replace(/\./g,'')))
+
+		if(!isNaN(+d.Positive) && +d.Positive > 0 && state != undefined)
+		{
+
+			const str = '.interactive-america-wrapper .' + d['State']
+			d3.selectAll(str)
+			.classed('selected', true);
+
+			let centroid = projection([d.Long, d.Lat]);
+
+			if(centroid) {
+
+				bubbles
+				.append('circle')
+				.attr("class", "bubble")
+				.attr("r", radius(+d.Positive))
+				.attr("cx", centroid[0])
+				.attr("cy", centroid[1])
+
+				/*
+				if(!isMobile && d.display == 'block')
+				{
+					if(d.cases > 1){
+						makeLabel(d, centroid)
+					}
+				}
+
+				if(isMobile && d.display == 'block')
+				{
+					if(d.cases > 2){
+						makeLabel(d, centroid)
+					}
+				}
+				*/
+
+			} else {
+				console.log("no centroid")
+				console.log(d)
+			}
+		}
+	})
+}
+/*
 const makeLabel = (d, centroid) =>{
 
 	let txt = d['Province/State'].replace('County', '').replace(' ,', ',')
@@ -178,7 +243,7 @@ const makeLabel = (d, centroid) =>{
 	.append("tspan")
 	.attr('class','country-label country-label--white')
 	.text(txt)
-	.attr('x', +d.offset_horizontal || 0) 
+	.attr('x', +d.offset_horizontal || 0)
 	.attr('y', -(d.offset_vertical) )
 
 	labelWhite
@@ -195,7 +260,7 @@ const makeLabel = (d, centroid) =>{
 	.append("tspan")
 	.attr('class','country-label')
 	.text(txt)
-	.attr('x', +d.offset_horizontal || 0) 
+	.attr('x', +d.offset_horizontal || 0)
 	.attr('y', -(d.offset_vertical) )
 
 	label
@@ -204,14 +269,13 @@ const makeLabel = (d, centroid) =>{
 	.text(d.text)
 	.attr('x', d.offset_horizontal || 0)
 	.attr('dy', '15' )
-
 }
+*/
 
-
-
+/*
 loadJson(dataurl)
 .then( fileRaw => {
-	
+
 	parseData(fileRaw.sheets.america_cases);
 
 	headline.html(fileRaw.sheets.america_furniture[0].text)
@@ -220,3 +284,34 @@ loadJson(dataurl)
 
 	window.resize();
 })
+*/
+drawMap(metadataurl, parseMetadata);
+
+/*
+loadJson(metadataurl)
+.then( fileRaw => {
+
+	parseMetadata(fileRaw.sheets.stateData);
+
+	headline.html(fileRaw.sheets.Furniture[0].text)
+	standfirst.html(fileRaw.sheets.Furniture[2].text)
+	source.html(fileRaw.sheets.Furniture[1].text)
+
+	window.resize();
+})
+*/
+
+//this is the function that draws the map
+function drawMap(data, fetchData) {
+	loadJson(metadataurl)
+	.then( fileRaw => {
+
+		fetchData(fileRaw.sheets.stateData);
+
+		headline.html(fileRaw.sheets.Furniture[0].text)
+		standfirst.html(fileRaw.sheets.Furniture[2].text)
+		source.html(fileRaw.sheets.Furniture[1].text)
+
+		window.resize();
+	})
+}
