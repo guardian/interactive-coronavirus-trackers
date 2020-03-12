@@ -91,7 +91,7 @@ const stateMesh = topojson.mesh(americaStatesMap,
 	.append('path')
 	.attr('d', path)
 	.attr('class', d => 'state ' + d.properties.postal)
-	.attr('emergency', d => 'bruh')
+	.attr('id', d => d.properties.postal)
 
 
 	//add the filters to the states
@@ -100,9 +100,8 @@ const stateMesh = topojson.mesh(americaStatesMap,
 
 	stateShapes.forEach (
 		function(currentValue) {
-			currentValue.addEventListener('mouseover', function(e) {
-				//console.log((e.relatedTarget).getAttribute('stroke'));
-			}.bind(this));
+			currentValue.addEventListener('mouseover',createTip);
+	  		currentValue.addEventListener('mouseout',cancelTip);
 		}
 	);
 
@@ -273,60 +272,7 @@ const stateMesh = topojson.mesh(americaStatesMap,
 }
 })
 }
-/*
-const makeLabel = (d, centroid) =>{
 
-let txt = d['Province/State'].replace('County', '').replace(' ,', ',')
-
-let labelWhite = labels.append('text')
-.attr('transform', 'translate(' + centroid[0] + ',' + centroid[1] + ')')
-
-labelWhite
-.append("tspan")
-.attr('class','country-label country-label--white')
-.text(txt)
-.attr('x', +d.offset_horizontal || 0)
-.attr('y', -(d.offset_vertical) )
-
-labelWhite
-.append('tspan')
-.attr('class','country-cases country-cases--white')
-.text(d.text)
-.attr('x', d.offset_horizontal || 0)
-.attr('dy', '15' )
-
-let label = labels.append('text')
-.attr('transform', 'translate(' + centroid[0] + ',' + centroid[1] + ')')
-
-label
-.append("tspan")
-.attr('class','country-label')
-.text(txt)
-.attr('x', +d.offset_horizontal || 0)
-.attr('y', -(d.offset_vertical) )
-
-label
-.append('tspan')
-.attr('class','country-cases')
-.text(d.text)
-.attr('x', d.offset_horizontal || 0)
-.attr('dy', '15' )
-}
-*/
-
-/*
-loadJson(dataurl)
-.then( fileRaw => {
-
-parseData(fileRaw.sheets.america_cases);
-
-headline.html(fileRaw.sheets.america_furniture[0].text)
-standfirst.html(fileRaw.sheets.america_furniture[2].text)
-source.html(fileRaw.sheets.america_furniture[1].text)
-
-window.resize();
-})
-*/
 drawMap(metadataurl, parseMetadata);
 
 //this is the function that draws the map
@@ -340,6 +286,47 @@ function drawMap(data, fetchData) {
 		standfirst.html(fileRaw.sheets.america_furniture[2].text)
 		source.html(fileRaw.sheets.america_furniture[1].text)
 
+		console.log(fileRaw.sheets.america_cases);
+
+		stateShapes.forEach (
+			function(currentValue) {
+				console.log(currentValue.getAttribute('id'))
+				var stateData = fileRaw.sheets.america_cases;
+				var index = stateData.findIndex(p => p.State == currentValue.getAttribute('id'))
+				currentValue.setAttribute('data-cases', currentValue.getAttribute('id') + ': ' + fileRaw.sheets.america_cases[index].Positive);
+			}
+		);
+
 		window.resize();
 	})
+}
+
+function createTip(ev){
+    var title = this.getAttribute("data-cases");
+    this.setAttribute("tooltip", title);
+
+	console.log(title);
+
+	console.log(this.getAttribute("data-cases"));
+
+	var tooltipWrap = document.createElement("div"); //creates div
+   tooltipWrap.className = 'tooltip'; //adds class
+   tooltipWrap.appendChild(document.createTextNode(title)); //add the text node to the newly created div.
+
+   var firstChild = document.body.firstChild;//gets the first elem after body
+   firstChild.parentNode.insertBefore(tooltipWrap, firstChild); //adds tt before elem
+
+   var padding = 5;
+   var linkProps = this.getBoundingClientRect();
+   var tooltipProps = tooltipWrap.getBoundingClientRect();
+   var topPos = linkProps.top - (tooltipProps.height + padding);
+   tooltipWrap.setAttribute('style','top:'+topPos+'px;'+'left:'+linkProps.left+'px;')
+}
+
+function cancelTip(ev){
+    var title = this.getAttribute("tooltip");
+    this.title = title;
+    this.removeAttribute("tooltip");
+
+	document.querySelector(".tooltip").remove();
 }
