@@ -1,0 +1,98 @@
+@import "fonts";
+@import "mq";
+@import "palette";
+@import "enhancer";
+
+.interactive-america-wrapper{
+	background: white;
+	border-top: 1px solid #dcdcdc;
+	//border-bottom: 1px solid #dcdcdc;
+	max-width: 860px;
+	margin-bottom: 12px;
+}
+
+// .country{
+// 	stroke-width:1.2px;
+// 	fill:#f6f6f6;
+
+// 	@include mq(mobile){stroke: #fafafa;}
+// 	@include mq(tablet){stroke: #ffffff;}
+// }
+
+.state{
+	fill:#f6f6f6;
+
+}
+
+.selected{
+	stroke:#ffffff;
+	stroke-opacity:1;
+	fill: rgba($news-red, 0.2);
+	fill-opacity:1;
+}
+
+.bubble{
+	stroke:#c70000;
+	stroke-opacity:1;
+	fill:#E9C6BC;
+	fill-opacity:0.2;
+}
+
+
+.country-label{
+	font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+	font-size: 14px;
+	font-weight: 900;
+
+	&.country-label--white {
+		stroke: white;
+		stroke-width: 3;
+		stroke-opacity: 0.6;
+		fill: none;
+	}
+}
+.country-cases{
+	font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+	font-size: 14px;
+
+	&.country-cases--white {
+		stroke: white;
+		stroke-width: 3;
+		stroke-opacity: 0.6;
+		fill: none;
+	}
+}
+
+.headline{
+
+	margin-top: 2px;
+
+	@include fs-header(3);
+
+	@include mq($from: desktop) {
+		@include fs-header(5);
+	}
+}
+.america-standfirst{	
+	font-size: 16px;
+	line-height: 24px;
+	font-family: "Guardian Text Egyptian Web",Georgia,serif;
+	margin-bottom: 12px;
+	font-weight: 300;
+}
+.america-source{
+	padding: 6px 0 6px 0;
+	margin: 0;
+	font-family: 'Guardian Text Sans Web', Arial, sans-serif;
+	font-size: 12px;
+	line-height: 15px;
+	color:#767676;
+	display: inline-block;
+	width: 100%;
+	//border-bottom: 1px solid #dcdcdc;
+}
+
+.co-state-mesh {
+	stroke: white;
+	fill: none;
+}
