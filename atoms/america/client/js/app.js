@@ -79,7 +79,11 @@ const stateMesh = topojson.mesh(americaStatesMap,
 
 	const radius = d3.scaleSqrt()
 
+<<<<<<< HEAD
 	.range([0, 20])
+=======
+.range([1, isMobile ? 20 : 30])
+>>>>>>> fdf60a416c435364d0b9e134ac3d179796642c27
 
 	//projection.fitExtent([[isMobile ? -200 : -400, isMobile ? -150 : -200], [width - 20 	, height]], americaExtent);
 
