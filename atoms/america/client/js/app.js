@@ -76,7 +76,7 @@ const labels = map.append('g');
 
 const radius = d3.scaleSqrt()
 
-.range([0, 20])
+.range([1, isMobile ? 20 : 30])
 
 //projection.fitExtent([[isMobile ? -200 : -400, isMobile ? -150 : -200], [width - 20 	, height]], americaExtent);
 
