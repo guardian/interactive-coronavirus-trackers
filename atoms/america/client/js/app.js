@@ -14,8 +14,8 @@ const metadataurl = 'https://interactive.guim.co.uk/docsdata-test/1ErpXeufokUQ4U
 
 //set d3/page specs
 const d3 = Object.assign({}, d3b, topojson, geoProjection);
-const headline = d3.select(".interactive-america-wrapper").append("h2").attr('class', 'headline');
-const standfirst = d3.select(".interactive-america-wrapper").append("div").attr('class', 'america-standfirst');
+const headline = d3.select(".interative-america__furniture").append("h2").attr('class', 'headline');
+const standfirst = d3.select(".interative-america__furniture").append("div").attr('class', 'america-standfirst');
 
 const atomEl = d3.select('.interactive-america-wrapper').node()
 const isMobile = window.matchMedia('(max-width: 600px)').matches;
@@ -286,14 +286,12 @@ function drawMap(data, fetchData) {
 		standfirst.html(fileRaw.sheets.america_furniture[2].text)
 		source.html(fileRaw.sheets.america_furniture[1].text)
 
-		console.log(fileRaw.sheets.america_cases);
-
 		stateShapes.forEach (
 			function(currentValue) {
 				console.log(currentValue.getAttribute('id'))
 				var stateData = fileRaw.sheets.america_cases;
 				var index = stateData.findIndex(p => p.State == currentValue.getAttribute('id'))
-				currentValue.setAttribute('data-cases', currentValue.getAttribute('id') + ': ' + fileRaw.sheets.america_cases[index].Positive);
+				currentValue.setAttribute('data-cases', 'There are ' + fileRaw.sheets.america_cases[index].Positive + ' cases in ' + fileRaw.sheets.america_cases[index].Name);
 			}
 		);
 
@@ -304,10 +302,6 @@ function drawMap(data, fetchData) {
 function createTip(ev){
     var title = this.getAttribute("data-cases");
     this.setAttribute("tooltip", title);
-
-	console.log(title);
-
-	console.log(this.getAttribute("data-cases"));
 
 	var tooltipWrap = document.createElement("div"); //creates div
    tooltipWrap.className = 'tooltip'; //adds class
