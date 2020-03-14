@@ -47,6 +47,8 @@ let places = [];
 
 let newCountries = [];
 
+let acumDates = [];
+
 //projection.fitExtent([[0, 0], [atomEl.getBoundingClientRect().width, atomEl.getBoundingClientRect().width / 3]], world);
 
 
@@ -71,11 +73,17 @@ loadJson(dataurl)
 
 	dates = Object.getOwnPropertyNames(fileRaw.sheets.main_cases[0]).filter(e => e.indexOf('/20') != -1 || e.indexOf('/21') != -1);
 
+	//console.log(dates)
+
 	let selectedDates = fileRaw.sheets.small_multiples;
+
+	//dates= ['1/22/20','1/23/20','1/24/20'/*,'1/25/20', '1/26/20', '1/27/20'*/]
+
+	//console.log(dates)
 
 	//console.log(selectedDates)
 
-	/*let selectedDates = [
+/*let selectedDates = [
 
 {date:'1/22/20'},
 {date:'1/23/20'},
@@ -119,10 +127,19 @@ loadJson(dataurl)
 {date:'3/1/20'},
 {date:'3/2/20'},
 {date:'3/3/20'},
-{date:'3/4/20'}
+{date:'3/4/20'},
+{date:'3/5/20'},
+{date:'3/6/20'},
+{date:'3/7/20'},
+{date:'3/8/20'},
+{date:'3/9/20'},
+{date:'3/10/20'},
+{date:'3/11/20'},
+{date:'3/12/20'},
+{date:'3/13/20'}
 
-]*/
-
+]
+*/
 
 	fileRaw.sheets.main_cases.map((p,i) => {
 
@@ -131,29 +148,47 @@ loadJson(dataurl)
 		dates.map(d => {
 			places[i].cases.push({date: d, cases: +p[d]});
 			newCountries[d] = [];
-	})
+		})
 
 	})
 
-	fileRaw.sheets.main_cases.map(p =>{
+	
+
+	//newCountries['1/22/20'].push('USA')
+	//newCountries['1/26/20'].push('CAN')
+	//let acum = 0;
+
+
+
+
+
+	dates.map((d,i) => {
+
 
 		let acum = 0;
 
-		dates.map((d,i) => {
+		
 
-			p[dates[i]] = +p[dates[i]] - acum;
+		fileRaw.sheets.main_cases.map(p =>{
+
+	
+			//p[dates[i]] = +p[dates[i]] - acum;
 
 
-			if(+p[dates[i]] > 0 && selectedCountry.indexOf(p.ISO_A3) < 0)
+			if(p[dates[i]] >= 1 && selectedCountry.indexOf(p.ISO_A3) == -1)
 			{
-				newCountries[dates[i]].push(p.ISO_A3)
 
 				selectedCountry.push(p.ISO_A3)
+
+				newCountries[dates[i]].push(p.ISO_A3)
+
 			}
 
 			acum += +p[dates[i]]
 
 		})
+
+		acumDates[d]=acum;
 
 	})
 
@@ -237,6 +272,9 @@ const makeMap = (date) =>{
 	let cStr = 'New cases in ';
 	let cInt = 0;
 	let acum = 0;
+	let thisDatePos = dates.indexOf(date)
+	let previousDatePos = thisDatePos -1;
+	let dailyCases = thisDatePos > 0 ? acumDates[date] - acumDates[dates[previousDatePos]] : acumDates[date];
 
 	places.map(p => { p.cases.map(c => {
 
@@ -245,7 +283,10 @@ const makeMap = (date) =>{
 			acum += c.cases;
 		}
 	})})
+
 	newCountries[date].map(nc => {
+
+		//console.log(nc)
 		if(nc != '-99' && nc != '#N/A'){
 
 			let n = countriesStr.find(c => c.iso === nc).name
@@ -272,10 +313,9 @@ const makeMap = (date) =>{
 
 	data.map(d => {
 
-		cInt += d[date];
+	//console.log(date, dates[previousDatePos], d[date], d[dates[previousDatePos]])
 
-
-		if(d[date] > 0){
+		if(+d[date] > 0 && +d[date] > +d[dates[previousDatePos]] || +d[date] > 0 && date === dates[0]){
 
 				let posX = projection([d.Long, d.Lat])[0];
 				let posY = projection([d.Long, d.Lat])[1];
@@ -298,6 +338,12 @@ const makeMap = (date) =>{
 	}
 
 	
+
+	//if(previousDatePos > -1)console.log(date, dates[previousDatePos], acumDates[date] - acumDates[dates[previousDatePos]])
+
+	//acumDates[date] - acumDates[date - 1]
+
+	
 	mapStandfirst.html(cStr.replace(/,(?=[^,]*$)/, ' and'))
-	count.html('Daily cases ' + numberWithCommas(cInt) + ' | Total cases ' + numberWithCommas(acum))
+	count.html('Daily cases ' + numberWithCommas(dailyCases) + ' | Total cases ' + numberWithCommas(acumDates[date]))
 }
