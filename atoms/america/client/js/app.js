@@ -142,16 +142,16 @@ const parseData = (data) => {
 				.attr("cx", centroid[0])
 				.attr("cy", centroid[1])
 
+console.log(d)
+
 				if(!isMobile && d.display == 'block')
 				{
-					if(d.cases > 1){
 						makeLabel(d, centroid)
-					}
 				}
 
 				if(isMobile && d.display == 'block')
 				{
-					if(d.cases > 2){
+					if(d.cases > 20){
 						makeLabel(d, centroid)
 					}
 				}

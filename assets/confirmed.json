@@ -24,37 +24,7 @@
     "features": [
       {
         "attributes": {
-          "value": 3491
-        }
-      }
-    ]
-  },
-  {
-    "objectIdFieldName": "OBJECTID",
-    "uniqueIdField": {
-      "name": "OBJECTID",
-      "isSystemMaintained": true
-    },
-    "globalIdFieldName": "",
-    "geometryType": "esriGeometryPoint",
-    "spatialReference": {
-      "wkid": 4326,
-      "latestWkid": 4326
-    },
-    "fields": [
-      {
-        "name": "value",
-        "type": "esriFieldTypeDouble",
-        "alias": "value",
-        "sqlType": "sqlTypeFloat",
-        "domain": null,
-        "defaultValue": null
-      }
-    ],
-    "features": [
-      {
-        "attributes": {
-          "value": 102188
+          "value": 121564
         }
       }
     ]
@@ -84,7 +54,7 @@
     "features": [
       {
         "attributes": {
-          "value": 57422
+          "value": 66239
         }
       }
     ]

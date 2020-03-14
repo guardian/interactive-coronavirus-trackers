@@ -10,12 +10,13 @@
     "url": "gulp url",
     "deploylive": "gulp deploylive",
     "deploypreview": "gulp deploypreview",
-    "parse":"node run parse.js"
+    "parse": "babel-node shared/scripts/parse.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.6.4",
+    "@babel/core": "^7.8.7",
+    "@babel/node": "^7.8.7",
     "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/preset-env": "^7.6.3",
     "@babel/register": "^7.6.2",
