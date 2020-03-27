@@ -13,7 +13,9 @@ const headline = d3.select(".interactive-maps-wrapper").append("h2").attr('class
 const standfirst = d3.select(".interactive-maps-wrapper").append("div").attr('class', 'standfirst');
 const maps = d3.select(".interactive-maps-wrapper").append("div").attr('class', 'interactive-maps-wrapper-maps');
 
-let isMobile = window.matchMedia('(max-width: 620px)').matches;
+let isMobile = window.matchMedia('(max-width: 600px)').matches;
+
+console.log(isMobile)
 
 const atomEl = d3.select('.interactive-maps-wrapper').node();
 
@@ -51,8 +53,8 @@ let acumDates = [];
 
 //projection.fitExtent([[0, 0], [atomEl.getBoundingClientRect().width, atomEl.getBoundingClientRect().width / 3]], world);
 
-
-/*const svg = d3.select(".interactive-maps-wrapper")
+/*
+const svg = d3.select(".interactive-maps-wrapper")
 .append('svg')
 .attr('width', atomEl.getBoundingClientRect().width)
 .attr('height', atomEl.getBoundingClientRect().width / 3)
@@ -63,8 +65,8 @@ svg.selectAll('path')
 .append('path')
 .attr('d', path)
 .attr('class', d => d.properties.ISO_A3)
-.attr('fill', '#dadada')*/
-
+.attr('fill', '#dadada')
+*/
 loadJson(dataurl)
 .then(fileRaw => {
 
@@ -136,10 +138,15 @@ loadJson(dataurl)
 {date:'3/10/20'},
 {date:'3/11/20'},
 {date:'3/12/20'},
-{date:'3/13/20'}
+{date:'3/13/20'},
+{date:'3/14/20'},
+{date:'3/15/20'},
+{date:'3/16/20'},
+{date:'3/17/20'},
+{date:'3/18/20'},
+{date:'3/19/20'}
+]*/
 
-]
-*/
 
 	fileRaw.sheets.main_cases.map((p,i) => {
 
@@ -202,6 +209,8 @@ loadJson(dataurl)
 		}
 
 	})
+
+	window.resize();
 
 });
 
@@ -304,7 +313,7 @@ const makeMap = (date) =>{
 			
 			context.fill();
 
-			/*svg.select('.' + d.ISO_A3)
+			/*svg.select('.' + nc)
 			.attr('fill', '#E9C6BC')*/
 
 			//selectedCountry.push(d.ISO_A3)

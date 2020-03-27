@@ -52,16 +52,17 @@
 	    	border-top: 1px solid #dcdcdc;
 		    //flex-basis: calc(33% - 10px);
 
-		    @include mq(mobile) {
-	            flex-basis: calc(100%);
+		    @include mq($from: 100px, $until: 500px) {
+	            flex-basis: 100%;
 	        }
 
-		    @include mq(tablet) {
-		        flex-basis: calc(50% - 2.5px);
-		    }
-		    @include mq(desktop) {
+		   @include mq($from: 500px, $until: 700px) {
+	            flex-basis: calc(50% - 5px);
+	        }
+
+		    @include mq($from: 700px) {
 		        flex-basis: calc(33% - 10px);
-		    }
+		    } 
 
 		    h3{
 		    	margin-top: 12px;
